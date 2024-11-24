@@ -1,0 +1,22 @@
+/* Body styling */
+body {
+    background-color: #f5f5f5;
+  }
+  
+  /* Hero section */
+  .hero {
+    background-color: #363636;
+    color: white;
+  }
+  
+  /* Content font size */
+  .content {
+    font-size: 1.1rem;
+  }
+  
+  /* Dropdown container styling */
+  .dropdown-container {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
