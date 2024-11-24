@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1 Dashboard Project</title>
+  <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+  <style>
+    /* Custom styling for the page */
+    body {
+      background-color: #f5f5f5;
+    }
+    .hero {
+      background-color: #363636;
+      color: white;
+    }
+    .content {
+      font-size: 1.1rem;
+    }
+    .dropdown-container {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero is-dark is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">F1 Dashboard Project</h1>
+        <h2 class="subtitle">Explore the thrilling world of Formula 1</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar is-light">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+          Home
+        </a>
+        <a class="navbar-item" href="#">
+          Browse
+        </a>
+        <a class="navbar-item" href="https://github.com/nsriv531/COMP3512-Assignment_2" target="_blank">
+          GitHub Repo
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Section -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <!-- Description Section -->
+        <div class="column is-half">
+          <div class="box">
+            <h1 class="title">Project Overview</h1>
+            <p class="content">
+              This site showcases the world of Formula 1 racing, providing data visualizations, race information, and team stats.
+              Technologies used include <strong>HTML, CSS, JavaScript</strong>, and the Bulma framework.
+              Team members: [Add your names here]. 
+              Access our <a href="https://github.com/nsriv531/COMP3512-Assignment_2" target="_blank">GitHub Repository</a> for source code and documentation.
+            </p>
+            <div class="dropdown-container">
+              <label class="label">Select a Season</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select>
+                    <option value="" disabled selected>Select a season</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Section -->
+        <div class="column is-half">
+          <div class="box has-text-centered">
+            <figure class="image is-16by9">
+              <img src="https://media.wired.com/photos/59324110edfced5820d0f362/191:100/w_1280,c_limit/AndriesvanOverbeeke11_gallery.jpg" alt="F1 Concept Car">
+            </figure>
+            <p class="content has-text-grey">
+              A stunning F1 concept car designed by Andries van Overbeeke.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
