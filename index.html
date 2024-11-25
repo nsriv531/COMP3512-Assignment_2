@@ -25,19 +25,13 @@
         <a class="navbar-item" href="#">
           <img src="assets/car-logo-vector-illustration_762078-124.avif" alt="Logo" width="50" height="50">
         </a>
-        <a class="navbar-item" href="#">
-          Home
-        </a>
-        <a class="navbar-item" href="#">
-          Browse
-        </a>
-        <a class="navbar-item" href="https://github.com/nsriv531/COMP3512-Assignment_2" target="_blank">
-          GitHub Repo
-        </a>
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="#">Browse</a>
+        <a class="navbar-item" href="https://github.com/nsriv531/COMP3512-Assignment_2" target="_blank">GitHub Repo</a>
       </div>
     </div>
   </nav>
-  
+
   <!-- Main Content Section -->
   <section class="section">
     <div class="container">
@@ -56,15 +50,16 @@
               <label class="label">Select a Season</label>
               <div class="control">
                 <div class="select is-fullwidth">
-                  <select>
+                  <select id="season-select">
                     <option value="" disabled selected>Select a season</option>
-                    <option>2020</option>
-                    <option>2021</option>
-                    <option>2022</option>
-                    <option>2023</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
                   </select>
                 </div>
               </div>
+              <button id="view-races-btn" class="button is-primary mt-4">View Races</button>
             </div>
           </div>
         </div>
@@ -75,13 +70,25 @@
             <figure class="image is-16by9">
               <img src="https://media.wired.com/photos/59324110edfced5820d0f362/191:100/w_1280,c_limit/AndriesvanOverbeeke11_gallery.jpg" alt="F1 Concept Car">
             </figure>
-            <p class="content has-text-grey">
-              A stunning F1 concept car designed by Andries van Overbeeke.
-            </p>
+            <p class="content has-text-grey">A stunning F1 concept car designed by Andries van Overbeeke.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Race View Section -->
+  <section class="section" id="race-view">
+    <div class="container">
+      <div class="box">
+        <h1 class="title">Race Details</h1>
+        <p id="race-view-message" class="content has-text-grey">No season selected</p>
+        <ul id="race-list"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
