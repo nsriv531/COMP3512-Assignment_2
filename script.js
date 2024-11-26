@@ -71,4 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
       .map((r) => `<tr><td>${r.pos}</td><td>${r.name}</td><td>${r.constructor}</td><td>${r.laps}</td><td>${r.points}</td></tr>`)
       .join("");
   }
+
+  function updatePodium(results) {
+    const podiumData = results.slice(0, 3); // Get the top 3 drivers
+    const podiumPlaces = document.querySelectorAll(".podium-place");
+  
+    podiumData.forEach((data, index) => {
+      const podiumPlace = podiumPlaces[index];
+      podiumPlace.querySelector(".podium-position").textContent = `${index + 1}${["st", "nd", "rd"][index]}`;
+      podiumPlace.querySelector(".driver-name").textContent = data.name;
+      podiumPlace.querySelector(".constructor-name").textContent = data.constructor;
+    });
+  }
+  
+  // Example usage when loading race results
+  updatePodium(raceResults);
+  
 });

@@ -1,22 +1,57 @@
-/* Body styling */
-body {
-    background-color: #f5f5f5;
-  }
-  
-  /* Hero section */
-  .hero {
-    background-color: #363636;
-    color: white;
-  }
-  
-  /* Content font size */
-  .content {
-    font-size: 1.1rem;
-  }
-  
-  /* Dropdown container styling */
-  .dropdown-container {
-    max-width: 300px;
-    margin: 0 auto;
-  }
-  
+/* Podium Container */
+.podium-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Each Podium Place */
+.podium-place {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+}
+
+/* Specific Styling for Gold, Silver, Bronze */
+.gold {
+  background: linear-gradient(45deg, #ffd700, #ffec8b);
+  box-shadow: 0px 4px 8px rgba(255, 215, 0, 0.5);
+  height: 150px; /* Tallest podium */
+}
+
+.silver {
+  background: linear-gradient(45deg, #c0c0c0, #d9d9d9);
+  box-shadow: 0px 4px 8px rgba(192, 192, 192, 0.5);
+  height: 120px; /* Medium podium */
+}
+
+.bronze {
+  background: linear-gradient(45deg, #cd7f32, #e0a877);
+  box-shadow: 0px 4px 8px rgba(205, 127, 50, 0.5);
+  height: 100px; /* Shortest podium */
+}
+
+/* Podium Text */
+.podium-position {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.driver-name {
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+.constructor-name {
+  font-size: 0.9em;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.8);
+}
