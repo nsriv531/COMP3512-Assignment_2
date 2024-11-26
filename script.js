@@ -6,18 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const qualifyingResults = document.getElementById("qualifying-results");
   const raceResults = document.getElementById("race-results");
 
-  // Mocked sample results
-  const sampleResults = {
-    qualifying: [
-      { pos: 1, name: "Max Verstappen", constructor: "Red Bull", q1: "1:27.23", q2: "1:23.23", q3: "1:22.98" },
-      { pos: 2, name: "Charles Leclerc", constructor: "Ferrari", q1: "1:27.35", q2: "1:23.56", q3: "1:23.12" },
-    ],
-    race: [
-      { pos: 1, name: "Max Verstappen", constructor: "Red Bull", laps: 58, points: 25 },
-      { pos: 2, name: "Charles Leclerc", constructor: "Ferrari", laps: 58, points: 18 },
-    ],
-  };
-
   viewRacesBtn.addEventListener("click", async () => {
     const selectedSeason = seasonSelect.value;
 
@@ -53,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         raceList.appendChild(listItem);
 
         listItem.querySelector(".view-results-btn").addEventListener("click", () => {
-          displayResults(sampleResults); // Mocked results
+          fetchAndDisplayResults(race.id); // Fetch and display results based on race id
         });
       });
     } catch (error) {
@@ -62,29 +50,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function displayResults(results) {
-    qualifyingResults.innerHTML = results.qualifying
-      .map((q) => `<tr><td>${q.pos}</td><td>${q.name}</td><td>${q.constructor}</td><td>${q.q1}</td><td>${q.q2}</td><td>${q.q3}</td></tr>`)
+  // Fetch and display the qualifying and race results for a given race ID
+  async function fetchAndDisplayResults(raceId) {
+    try {
+      // Fetch qualifying results for the selected race
+      const qualifyingResponse = await fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`);
+      const qualifyingData = await qualifyingResponse.json();
+
+      // Fetch race results for the selected race (assuming this URL exists for race results)
+      const raceResponse = await fetch(`https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`);
+      const raceData = await raceResponse.json();
+
+      // Display the results in the table
+      displayResults(qualifyingData, raceData);
+      updatePodium(raceData); // Update podium (top 3 positions)
+    } catch (error) {
+      console.error(error);
+      raceResults.innerHTML = "<tr><td colspan='5'>Failed to load race results.</td></tr>";
+      qualifyingResults.innerHTML = "<tr><td colspan='6'>Failed to load qualifying results.</td></tr>";
+    }
+  }
+
+  // Function to display qualifying and race results in their respective tables
+  function displayResults(qualifyingData, raceData) {
+    // Display Qualifying Results
+    qualifyingResults.innerHTML = qualifyingData
+      .map(
+        (q) => `<tr><td>${q.position}</td><td>${q.driver.forename} ${q.driver.surname}</td><td>${q.constructor.name}</td><td>${q.q1}</td><td>${q.q2}</td><td>${q.q3}</td></tr>`
+      )
       .join("");
 
-    raceResults.innerHTML = results.race
-      .map((r) => `<tr><td>${r.pos}</td><td>${r.name}</td><td>${r.constructor}</td><td>${r.laps}</td><td>${r.points}</td></tr>`)
+    // Display Race Results
+    raceResults.innerHTML = raceData
+      .map(
+        (r) => `<tr><td>${r.position}</td><td>${r.driver.forename} ${r.driver.surname}</td><td>${r.constructor.name}</td><td>${r.laps}</td><td>${r.points}</td></tr>`
+      )
       .join("");
   }
 
-  function updatePodium(results) {
-    const podiumData = results.slice(0, 3); // Get the top 3 drivers
+  // Function to update podium (top 3 positions)
+  function updatePodium(raceResults) {
+    const podiumData = raceResults.slice(0, 3); // Get the top 3 drivers
     const podiumPlaces = document.querySelectorAll(".podium-place");
-  
+
     podiumData.forEach((data, index) => {
       const podiumPlace = podiumPlaces[index];
       podiumPlace.querySelector(".podium-position").textContent = `${index + 1}${["st", "nd", "rd"][index]}`;
-      podiumPlace.querySelector(".driver-name").textContent = data.name;
-      podiumPlace.querySelector(".constructor-name").textContent = data.constructor;
+      podiumPlace.querySelector(".driver-name").textContent = `${data.driver.forename} ${data.driver.surname}`;
+      podiumPlace.querySelector(".constructor-name").textContent = data.constructor.name;
     });
   }
-  
-  // Example usage when loading race results
-  updatePodium(raceResults);
-  
 });

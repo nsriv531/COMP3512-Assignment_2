@@ -21,9 +21,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 20px;
+  gap: 30px;
   text-align: center;
   padding: 20px 0;
+  position: relative;
+  flex-wrap: wrap;  /* Allow the podium items to wrap if necessary */
+  max-width: 100%;  /* Ensure the container doesn’t overflow */
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Each Podium Place */
@@ -32,46 +37,79 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 100px;
-  padding: 10px;
-  border-radius: 8px;
+  width: 120px;
+  padding: 15px;
+  border-radius: 15px;
   color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 0 10px;  /* Ensure there’s space between the podium items */
+}
+
+/* Hover Effect for Podium Places */
+.podium-place:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* Specific Styling for Gold, Silver, Bronze */
 .gold {
-  background: linear-gradient(45deg, #ffd700, #ffec8b);
-  box-shadow: 0px 4px 8px rgba(255, 215, 0, 0.5);
-  height: 150px; /* Tallest podium */
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  box-shadow: 0px 8px 16px rgba(255, 215, 0, 0.5);
+  height: 200px; /* Taller podium */
+  transform: scale(1.1); /* Slightly larger podium */
 }
 
 .silver {
-  background: linear-gradient(45deg, #c0c0c0, #d9d9d9);
-  box-shadow: 0px 4px 8px rgba(192, 192, 192, 0.5);
-  height: 120px; /* Medium podium */
+  background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+  box-shadow: 0px 6px 12px rgba(192, 192, 192, 0.4);
+  height: 170px; /* Medium height podium */
+  transform: scale(1.05); /* Slightly larger podium */
 }
 
 .bronze {
-  background: linear-gradient(45deg, #cd7f32, #e0a877);
-  box-shadow: 0px 4px 8px rgba(205, 127, 50, 0.5);
-  height: 100px; /* Shortest podium */
+  background: linear-gradient(135deg, #cd7f32, #e0a877);
+  box-shadow: 0px 6px 12px rgba(205, 127, 50, 0.4);
+  height: 150px; /* Shortest podium */
+  transform: scale(1); /* Default size */
 }
 
 /* Podium Text */
 .podium-position {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 .driver-name {
-  font-size: 1em;
-  margin-top: 10px;
+  font-size: 1.2em;
+  margin-top: 15px;
 }
 
 .constructor-name {
-  font-size: 0.9em;
+  font-size: 1em;
   margin-top: 5px;
   color: rgba(255, 255, 255, 0.8);
+}
+
+/* Adding an outer glow for better distinction */
+.podium-place:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+/* Adjust the hover effect for outer glow */
+.podium-place:hover:before {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 /* Race Details Section */
@@ -168,4 +206,17 @@ body {
 /* Podium Section */
 #podium .podium-container {
   margin-top: 20px;
+}
+
+/* Add media queries for responsive design */
+@media screen and (max-width: 768px) {
+  .podium-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .podium-place {
+    width: 90%;
+  }
 }
