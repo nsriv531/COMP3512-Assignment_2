@@ -166,6 +166,31 @@
     </div>
   </section>
 
+<!-- Constructor Details Modal -->
+<div id="constructor-modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <button class="delete" id="close-modal"></button>
+      <h3 id="constructor-name" class="title is-4"></h3>
+      <p><strong>Nationality:</strong> <span id="constructor-nationality"></span></p>
+      <p><strong>Website:</strong> <span id="constructor-url"></span></p>
+      <h4 class="title is-5 mt-4">Race Results:</h4>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Round</th>
+            <th>Race</th>
+            <th>Points</th>
+            <th>Position</th>
+          </tr>
+        </thead>
+        <tbody id="constructor-race-results"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
   <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
