@@ -151,58 +151,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Fetch constructor details and display them in the modal
   async function fetchConstructorDetails(constructorRef, season) {
-    try {
-      // Log API URL for debugging
-      console.log(`API URL: https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`);
-      
-      const response = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
-      );
-      const resultsData = await response.json();
-  
-      // Log the API response
-      console.log("Constructor API Response:", resultsData);
-  
-      // Handle API errors
-      if (resultsData.error) {
-        console.error("API Error:", resultsData.error.message);
-        constructorRaceResults.innerHTML = `<tr><td colspan='4'>Error: ${resultsData.error.message}</td></tr>`;
-        openModal();
+    if (!constructorRef) {
+        console.error("Invalid constructorRef provided:", constructorRef);
         return;
-      }
-  
-      // Validate the response structure
-      if (!resultsData || resultsData.length === 0 || !resultsData[0]?.constructor) {
-        console.error("Invalid or missing constructor data:", resultsData);
-        constructorRaceResults.innerHTML = "<tr><td colspan='4'>No data available for this constructor.</td></tr>";
-        openModal();
-        return;
-      }
-  
-      // Populate modal with constructor details
-      constructorName.textContent = resultsData[0].constructor.name;
-      constructorNationality.textContent = resultsData[0].constructor.nationality;
-      constructorURL.innerHTML = `<a href="${resultsData[0].constructor.url}" target="_blank">${resultsData[0].constructor.url}</a>`;
-  
-      // Populate race results in the modal
-      constructorRaceResults.innerHTML = resultsData
-        .map(
-          (r) => `
-            <tr>
-              <td>${r.round}</td>
-              <td>${r.race.name}</td>
-              <td>${r.points}</td>
-              <td>${r.position}</td>
-            </tr>`
-        )
-        .join("");
-  
-      // Open the modal
-      openModal();
-    } catch (error) {
-      console.error("Failed to fetch constructor details:", error);
-      constructorRaceResults.innerHTML = "<tr><td colspan='4'>Failed to load constructor data.</td></tr>";
-      openModal();
     }
-  }
+
+    try {
+        console.log(`API URL: https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`);
+        const response = await fetch(
+            `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
+        );
+        const resultsData = await response.json();
+
+        if (resultsData.error || !resultsData.length) {
+            console.error("API Error or no results:", resultsData.error || "No data available.");
+            constructorRaceResults.innerHTML = "<tr><td colspan='4'>No data available for this constructor.</td></tr>";
+            openModal();
+            return;
+        }
+
+        constructorName.textContent = resultsData[0]?.constructor?.name || "Unknown";
+        constructorNationality.textContent = resultsData[0]?.constructor?.nationality || "Unknown";
+        constructorURL.innerHTML = `<a href="${resultsData[0]?.constructor?.url || '#'}" target="_blank">${resultsData[0]?.constructor?.url || 'No website available'}</a>`;
+
+        constructorRaceResults.innerHTML = resultsData
+            .map(
+                (r) => `
+                <tr>
+                    <td>${r.round}</td>
+                    <td>${r.race?.name || "Unknown"}</td>
+                    <td>${r.points || "0"}</td>
+                    <td>${r.position || "N/A"}</td>
+                </tr>`
+            )
+            .join("");
+
+        openModal();
+    } catch (error) {
+        console.error("Failed to fetch constructor details:", error);
+        constructorRaceResults.innerHTML = "<tr><td colspan='4'>Failed to load constructor data.</td></tr>";
+        openModal();
+    }
+}
 });
