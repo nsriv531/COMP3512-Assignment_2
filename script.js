@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add event listener to each "View Results" button
         listItem.querySelector(".view-results-btn").addEventListener("click", () => {
           fetchAndDisplayResults(race.id);
+          console.log(race.id);
         });
       });
     } catch (error) {
@@ -85,6 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch and display results
   async function fetchAndDisplayResults(raceId) {
     try {
+
+      const raceDetailsResponse = await fetch(
+        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?id=${raceId}`
+      );
+      const raceDetails = await raceDetailsResponse.json();
+      console.log(raceDetails);
+
       const qualifyingResponse = await fetch(
         `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`
       );
@@ -95,10 +103,30 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const raceData = await raceResponse.json();
 
+
+      displayRaceDetails(raceDetails);
       displayResults(qualifyingData, raceData);
     } catch (error) {
       console.error("Error fetching results:", error);
     }
+  }
+
+  function displayRaceDetails(race) {
+    const raceDetailsContainer = document.getElementById("race-details");
+  
+    // Check if race is an array
+    if (Array.isArray(race) && race.length > 0) {
+      race = race[0]; // Use the first item if it's an array
+    }
+  
+    raceDetailsContainer.innerHTML = `
+      <h2 class="title">Results for ${race.name || "N/A"}</h2>
+      <p><strong>Round:</strong> ${race.round || "N/A"}</p>
+      <p><strong>Year:</strong> ${race.season || "N/A"}</p>
+      <p><strong>Circuit:</strong> ${race.circuit.name} (${race.circuit.location}, ${race.circuit.country})</p>
+      <p><strong>Date:</strong> ${race.date || "N/A"}</p>
+      <p><strong>URL:</strong> <a href="${race.url || "#"}" target="_blank">${race.url || "N/A"}</a></p>
+    `;
   }
 
   // Display qualifying and race results
@@ -149,56 +177,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Fetch constructor details
   async function fetchConstructorDetails(constructorRef, season) {
-    try {
-      if (!constructorRef || !season) {
-        console.error("Missing constructor reference or season.");
-        return;
-      }
-  
-      const response = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
-      );
-  
-      if (!response.ok) {
-        console.error("Failed to fetch constructor data:", response.statusText);
-        return;
-      }
-  
-      const data = await response.json();
-  
-      if (!data.length) {
-        console.error("No constructor data available.");
-        constructorName.textContent = "No data found";
-        constructorRaceResults.innerHTML = "<tr><td colspan='4'>No results available</td></tr>";
-        openModal(constructorModal);
-        return;
-      }
-  
-      const constructor = data[0]?.constructor;
-  
-      constructorName.textContent = constructor?.name || "Unknown";
-      constructorNationality.textContent = constructor?.nationality || "Unknown";
-      constructorURL.innerHTML = `<a href="${constructor?.url}" target="_blank">${constructor?.url || "No website available"}</a>`;
-      constructorRaceResults.innerHTML = data
-        .map(
-          (result) => `
-          <tr>
-            <td>${result.round}</td>
-            <td>${result.race?.name || "N/A"}</td>
-            <td>${result.points || "0"}</td>
-            <td>${result.position || "N/A"}</td>
-          </tr>`
-        )
-        .join("");
-  
-      openModal(constructorModal);
-    } catch (error) {
-      console.error("Error fetching constructor data:", error);
-      constructorName.textContent = "Error loading constructor details";
-      constructorRaceResults.innerHTML = "<tr><td colspan='4'>Unable to load data</td></tr>";
-      openModal(constructorModal);
+  try {
+    if (!constructorRef || !season) {
+      console.error("Missing constructor reference or season.");
+      return;
     }
+
+    const response = await fetch(
+      `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
+    );
+
+    if (!response.ok) {
+      console.error("Failed to fetch constructor data:", response.statusText);
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!data.length) {
+      console.error("No constructor data available.");
+      constructorName.textContent = "No data found";
+      constructorRaceResults.innerHTML = "<tr><td colspan='4'>No results available</td></tr>";
+      openModal(constructorModal);
+      return;
+    }
+
+    const constructor = data[0]?.constructor;
+
+    constructorName.textContent = constructor?.name || "Unknown";
+    constructorNationality.textContent = constructor?.nationality || "Unknown";
+    constructorURL.innerHTML = `<a href="${constructor?.url}" target="_blank">${constructor?.url || "No website available"}</a>`;
+    constructorRaceResults.innerHTML = data
+      .map(
+        (result) => `
+        <tr>
+          <td>${result.round}</td>
+          <td>${result.race?.name || "N/A"}</td>
+          <td>${result.points || "0"}</td>
+          <td>${result.position || "N/A"}</td>
+        </tr>`
+      )
+      .join("");
+
+    openModal(constructorModal);
+  } catch (error) {
+    console.error("Error fetching constructor data:", error);
+    constructorName.textContent = "Error loading constructor details";
+    constructorRaceResults.innerHTML = "<tr><td colspan='4'>Unable to load data</td></tr>";
+    openModal(constructorModal);
   }
+}
 
   // Fetch driver details
   async function fetchDriverDetails(driverId) {
