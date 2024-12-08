@@ -150,14 +150,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch constructor details
   async function fetchConstructorDetails(constructorRef, season) {
     try {
+      if (!constructorRef || !season) {
+        console.error("Missing constructor reference or season.");
+        return;
+      }
+  
       const response = await fetch(
         `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
       );
+  
+      if (!response.ok) {
+        console.error("Failed to fetch constructor data:", response.statusText);
+        return;
+      }
+  
       const data = await response.json();
-
-      constructorName.textContent = data[0]?.constructor?.name || "Unknown";
-      constructorNationality.textContent = data[0]?.constructor?.nationality || "Unknown";
-      constructorURL.innerHTML = `<a href="${data[0]?.constructor?.url}" target="_blank">Website</a>`;
+  
+      if (!data.length) {
+        console.error("No constructor data available.");
+        constructorName.textContent = "No data found";
+        constructorRaceResults.innerHTML = "<tr><td colspan='4'>No results available</td></tr>";
+        openModal(constructorModal);
+        return;
+      }
+  
+      const constructor = data[0]?.constructor;
+  
+      constructorName.textContent = constructor?.name || "Unknown";
+      constructorNationality.textContent = constructor?.nationality || "Unknown";
+      constructorURL.innerHTML = `<a href="${constructor?.url}" target="_blank">${constructor?.url || "No website available"}</a>`;
       constructorRaceResults.innerHTML = data
         .map(
           (result) => `
@@ -169,10 +190,13 @@ document.addEventListener("DOMContentLoaded", () => {
           </tr>`
         )
         .join("");
-
+  
       openModal(constructorModal);
     } catch (error) {
       console.error("Error fetching constructor data:", error);
+      constructorName.textContent = "Error loading constructor details";
+      constructorRaceResults.innerHTML = "<tr><td colspan='4'>Unable to load data</td></tr>";
+      openModal(constructorModal);
     }
   }
 
