@@ -14,17 +14,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const constructorURL = document.getElementById("constructor-url");
   const constructorRaceResults = document.getElementById("constructor-race-results");
 
-  // Function to open the modal
-  function openModal() {
-    constructorModal.classList.add("is-active");
+  // Modal elements for drivers
+  const driverModal = document.getElementById("driver-modal");
+  const closeDriverModalButton = document.getElementById("close-driver-modal");
+  const driverName = document.getElementById("driver-name");
+  const driverNationality = document.getElementById("driver-nationality");
+  const driverDob = document.getElementById("driver-dob");
+  const driverURL = document.getElementById("driver-url");
+
+  // Functions to open and close modals
+  function openModal(modal) {
+    modal.classList.add("is-active");
   }
 
-  // Function to close the modal
-  function closeModal() {
-    constructorModal.classList.remove("is-active");
+  function closeModal(modal) {
+    modal.classList.remove("is-active");
   }
 
-  closeModalButton.addEventListener("click", closeModal);
+  closeModalButton.addEventListener("click", () => closeModal(constructorModal));
+  closeDriverModalButton.addEventListener("click", () => closeModal(driverModal));
 
   // Handle "View Races" button click
   viewRacesBtn.addEventListener("click", async () => {
@@ -74,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Fetch and display the qualifying and race results for a given race ID
+  // Fetch and display results
   async function fetchAndDisplayResults(raceId) {
     try {
       const qualifyingResponse = await fetch(
@@ -88,22 +96,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const raceData = await raceResponse.json();
 
       displayResults(qualifyingData, raceData);
-      updatePodium(raceData);
     } catch (error) {
       console.error("Error fetching results:", error);
-      raceResults.innerHTML = "<tr><td colspan='5'>Failed to load race results.</td></tr>";
-      qualifyingResults.innerHTML = "<tr><td colspan='6'>Failed to load qualifying results.</td></tr>";
     }
   }
 
-  // Function to display qualifying and race results in their respective tables
+  // Display qualifying and race results
   function displayResults(qualifyingData, raceData) {
     qualifyingResults.innerHTML = qualifyingData
       .map(
         (q) => `
           <tr>
             <td>${q.position}</td>
-            <td>${q.driver.forename} ${q.driver.surname}</td>
+            <td><a href="#" class="driver-link" data-driver-id="${q.driver.driverId}">${q.driver.forename} ${q.driver.surname}</a></td>
             <td><a href="#" class="constructor-link" data-constructor-ref="${q.constructor.constructorRef}">${q.constructor.name}</a></td>
             <td>${q.q1 || "--"}</td>
             <td>${q.q2 || "--"}</td>
@@ -117,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (r) => `
           <tr>
             <td>${r.position}</td>
-            <td>${r.driver.forename} ${r.driver.surname}</td>
+            <td><a href="#" class="driver-link" data-driver-id="${r.driver.driverId}">${r.driver.forename} ${r.driver.surname}</a></td>
             <td><a href="#" class="constructor-link" data-constructor-ref="${r.constructor.constructorRef}">${r.constructor.name}</a></td>
             <td>${r.laps}</td>
             <td>${r.points}</td>
@@ -125,72 +130,68 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .join("");
 
-    // Add event listeners for constructor links
     document.querySelectorAll(".constructor-link").forEach((link) => {
       link.addEventListener("click", (event) => {
         event.preventDefault();
-        const constructorRef = event.target.getAttribute("data-constructor-ref");
-        const season = seasonSelect.value;
-        fetchConstructorDetails(constructorRef, season);
+        const constructorRef = link.getAttribute("data-constructor-ref");
+        fetchConstructorDetails(constructorRef, seasonSelect.value);
+      });
+    });
+
+    document.querySelectorAll(".driver-link").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const driverId = link.getAttribute("data-driver-id");
+        fetchDriverDetails(driverId);
       });
     });
   }
 
-  // Update podium (top 3 positions)
-  function updatePodium(raceResults) {
-    const podiumData = raceResults.slice(0, 3);
-    const podiumPlaces = document.querySelectorAll(".podium-place");
+  // Fetch constructor details
+  async function fetchConstructorDetails(constructorRef, season) {
+    try {
+      const response = await fetch(
+        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
+      );
+      const data = await response.json();
 
-    podiumData.forEach((data, index) => {
-      const podiumPlace = podiumPlaces[index];
-      podiumPlace.querySelector(".podium-position").textContent = `${index + 1}${["st", "nd", "rd"][index]}`;
-      podiumPlace.querySelector(".driver-name").textContent = `${data.driver.forename} ${data.driver.surname}`;
-      podiumPlace.querySelector(".constructor-name").textContent = data.constructor.name;
-    });
+      constructorName.textContent = data[0]?.constructor?.name || "Unknown";
+      constructorNationality.textContent = data[0]?.constructor?.nationality || "Unknown";
+      constructorURL.innerHTML = `<a href="${data[0]?.constructor?.url}" target="_blank">Website</a>`;
+      constructorRaceResults.innerHTML = data
+        .map(
+          (result) => `
+          <tr>
+            <td>${result.round}</td>
+            <td>${result.race?.name || "N/A"}</td>
+            <td>${result.points || "0"}</td>
+            <td>${result.position || "N/A"}</td>
+          </tr>`
+        )
+        .join("");
+
+      openModal(constructorModal);
+    } catch (error) {
+      console.error("Error fetching constructor data:", error);
+    }
   }
 
-  // Fetch constructor details and display them in the modal
-  async function fetchConstructorDetails(constructorRef, season) {
-    if (!constructorRef) {
-        console.error("Invalid constructorRef provided:", constructorRef);
-        return;
-    }
-
+  // Fetch driver details
+  async function fetchDriverDetails(driverId) {
     try {
-        console.log(`API URL: https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`);
-        const response = await fetch(
-            `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
-        );
-        const resultsData = await response.json();
+      const response = await fetch(
+        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/drivers.php?driverId=${driverId}`
+      );
+      const driver = await response.json();
 
-        if (resultsData.error || !resultsData.length) {
-            console.error("API Error or no results:", resultsData.error || "No data available.");
-            constructorRaceResults.innerHTML = "<tr><td colspan='4'>No data available for this constructor.</td></tr>";
-            openModal();
-            return;
-        }
+      driverName.textContent = `${driver[0]?.forename} ${driver[0]?.surname}`;
+      driverNationality.textContent = driver[0]?.nationality || "Unknown";
+      driverDob.textContent = driver[0]?.dateOfBirth || "Unknown";
+      driverURL.innerHTML = `<a href="${driver[0]?.url}" target="_blank">Biography</a>`;
 
-        constructorName.textContent = resultsData[0]?.constructor?.name || "Unknown";
-        constructorNationality.textContent = resultsData[0]?.constructor?.nationality || "Unknown";
-        constructorURL.innerHTML = `<a href="${resultsData[0]?.constructor?.url || '#'}" target="_blank">${resultsData[0]?.constructor?.url || 'No website available'}</a>`;
-
-        constructorRaceResults.innerHTML = resultsData
-            .map(
-                (r) => `
-                <tr>
-                    <td>${r.round}</td>
-                    <td>${r.race?.name || "Unknown"}</td>
-                    <td>${r.points || "0"}</td>
-                    <td>${r.position || "N/A"}</td>
-                </tr>`
-            )
-            .join("");
-
-        openModal();
+      openModal(driverModal);
     } catch (error) {
-        console.error("Failed to fetch constructor details:", error);
-        constructorRaceResults.innerHTML = "<tr><td colspan='4'>Failed to load constructor data.</td></tr>";
-        openModal();
+      console.error("Error fetching driver data:", error);
     }
-}
+  }
 });
