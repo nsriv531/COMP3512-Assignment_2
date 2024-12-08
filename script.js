@@ -22,6 +22,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const driverDob = document.getElementById("driver-dob");
   const driverURL = document.getElementById("driver-url");
 
+  const circuitModal = document.getElementById("circuit-modal");
+const closeCircuitModalButton = document.getElementById("close-circuit-modal");
+const circuitName = document.getElementById("circuit-name");
+const circuitLocation = document.getElementById("circuit-location");
+const circuitCountry = document.getElementById("circuit-country");
+const circuitURL = document.getElementById("circuit-url");
+const circuitImage = document.getElementById("circuit-image");
+
+// Close the circuit modal
+closeCircuitModalButton.addEventListener("click", () => closeModal(circuitModal));
+
+// Fetch and display circuit details
+async function fetchCircuitDetails(circuitRef) {
+  try {
+    const response = await fetch(
+      `https://www.randyconnolly.com/funwebdev/3rd/api/f1/circuits.php?ref=${circuitRef}`
+    );
+    const circuit = await response.json();
+
+    // Assuming circuit data is an array, take the first element
+    const circuitData = Array.isArray(circuit) ? circuit[0] : circuit;
+
+    circuitName.textContent = circuitData.name || "Unknown";
+    circuitLocation.textContent = circuitData.location || "Unknown";
+    circuitCountry.textContent = circuitData.country || "Unknown";
+    circuitURL.innerHTML = circuitData.url
+      ? `<a href="${circuitData.url}" target="_blank">${circuitData.url}</a>`
+      : "No website available";
+    circuitImage.src = circuitData.image || "default-image.png"; // Use a default image if none is provided
+
+    openModal(circuitModal);
+  } catch (error) {
+    console.error("Error fetching circuit details:", error);
+  }
+}
+
   // Functions to open and close modals
   function openModal(modal) {
     modal.classList.add("is-active");
@@ -123,10 +159,25 @@ document.addEventListener("DOMContentLoaded", () => {
       <h2 class="title">Results for ${race.name || "N/A"}</h2>
       <p><strong>Round:</strong> ${race.round || "N/A"}</p>
       <p><strong>Year:</strong> ${race.season || "N/A"}</p>
-      <p><strong>Circuit:</strong> ${race.circuit.name} (${race.circuit.location}, ${race.circuit.country})</p>
+      <p>
+        <strong>Circuit:</strong> 
+        <a href="#" class="circuit-link" data-circuit-ref="${race.circuit.id}">
+          ${race.circuit.name} (${race.circuit.location}, ${race.circuit.country})
+        </a>
+      </p>
       <p><strong>Date:</strong> ${race.date || "N/A"}</p>
       <p><strong>URL:</strong> <a href="${race.url || "#"}" target="_blank">${race.url || "N/A"}</a></p>
     `;
+  
+    // Add event listener to the circuit link
+    const circuitLink = raceDetailsContainer.querySelector(".circuit-link");
+    if (circuitLink) {
+      circuitLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        const circuitRef = circuitLink.getAttribute("data-circuit-ref");
+        fetchCircuitDetails(circuitRef);
+      });
+    }
   }
 
   // Display qualifying and race results
