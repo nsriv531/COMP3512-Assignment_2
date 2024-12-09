@@ -214,7 +214,7 @@ async function fetchCircuitDetails(circuitRef) {
           </tr>`;
       })
       .join("");
-    console.log(qualifyingData);
+  
     raceResults.innerHTML = raceData
       .map((r) => {
         const constructorRef = r.constructor.ref || "N/A"; // Fallback to "N/A" if undefined
@@ -231,20 +231,17 @@ async function fetchCircuitDetails(circuitRef) {
       })
       .join("");
   
+    // Update the podium
+    updatePodium(raceData);
+  
     // Add event listeners for constructor links
     document.querySelectorAll(".constructor-link").forEach((link) => {
-  console.log("Constructor Link Found:", link); // Debug
-  link.addEventListener("click", (event) => {
-    event.preventDefault();
-    const constructorRef = link.getAttribute("data-constructor-ref");
-    console.log("Clicked Constructor Ref:", constructorRef); // Debug
-    if (constructorRef && constructorRef !== "N/A") {
-      fetchConstructorDetails(constructorRef, seasonSelect.value);
-    } else {
-      alert("Constructor details are not available.");
-    }
-  });
-});
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const constructorRef = link.getAttribute("data-constructor-ref");
+        if (constructorRef) fetchConstructorDetails(constructorRef, seasonSelect.value);
+      });
+    });
   
     // Add event listeners for driver links
     document.querySelectorAll(".driver-link").forEach((link) => {
@@ -253,6 +250,23 @@ async function fetchCircuitDetails(circuitRef) {
         const driverId = link.getAttribute("data-driver-id");
         if (driverId) fetchDriverDetails(driverId);
       });
+    });
+  }
+  
+  
+  function updatePodium(raceData) {
+    // Get the top 3 results
+    const podiumResults = raceData.slice(0, 3); // Top 3 drivers only
+    const podiumPlaces = document.querySelectorAll(".podium-place");
+  
+    // Map the podium results to each podium place
+    podiumResults.forEach((result, index) => {
+      const podiumPlace = podiumPlaces[index];
+      const driverNameElement = podiumPlace.querySelector(".driver-name");
+      const constructorNameElement = podiumPlace.querySelector(".constructor-name");
+  
+      driverNameElement.textContent = `${result.driver.forename} ${result.driver.surname}`;
+      constructorNameElement.textContent = result.constructor.name;
     });
   }
 
