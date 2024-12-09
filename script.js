@@ -31,11 +31,43 @@ const circuitURL = document.getElementById("circuit-url");
 const circuitImage = document.getElementById("circuit-image");
 
 const favoritesModal = document.getElementById("favorites-modal");
-  const favoritesList = document.getElementById("favorites-list");
-  const showFavoritesButton = document.getElementById("showfavorites");
-  const closeFavoritesModal = document.getElementById("close-favorites-modal");
+const favoritesList = document.getElementById("favorites-list");
+const showFavoritesButton = document.getElementById("showfavorites");
+const closeFavoritesModal = document.getElementById("close-favorites-modal");
 
   // Event listener to open the favorites modal
+  function populateFavoritesList() {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    favoritesList.innerHTML = "";
+
+    if (favorites.length === 0) {
+      favoritesList.innerHTML = "<li>No favorites added yet.</li>";
+    } else {
+      favorites.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${item.type}: ${item.name}</span>
+          <button data-index="${index}" class="remove-favorite-button">Remove</button>
+        `;
+        favoritesList.appendChild(li);
+
+        // Add event listener to remove button
+        li.querySelector(".remove-favorite-button").addEventListener("click", () => {
+          removeFavorite(index);
+        });
+      });
+    }
+  }
+
+  // Function to remove a favorite from localStorage
+  function removeFavorite(index) {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    favorites.splice(index, 1); // Remove the selected favorite
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    populateFavoritesList(); // Refresh the list
+  }
+
+  // Event listener to show the favorites modal
   showFavoritesButton.addEventListener("click", () => {
     populateFavoritesList();
     favoritesModal.classList.add("is-active");
@@ -45,8 +77,11 @@ const favoritesModal = document.getElementById("favorites-modal");
   closeFavoritesModal.addEventListener("click", () => {
     favoritesModal.classList.remove("is-active");
   });
-  
 
+  // Event listener to close modal when clicking outside content
+  document.querySelector(".modal-background").addEventListener("click", () => {
+    favoritesModal.classList.remove("is-active");
+  });
 // Close the circuit modal
 closeCircuitModalButton.addEventListener("click", () => closeModal(circuitModal));
 
