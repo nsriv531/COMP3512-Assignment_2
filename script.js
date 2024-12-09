@@ -30,6 +30,23 @@ const circuitCountry = document.getElementById("circuit-country");
 const circuitURL = document.getElementById("circuit-url");
 const circuitImage = document.getElementById("circuit-image");
 
+const favoritesModal = document.getElementById("favorites-modal");
+  const favoritesList = document.getElementById("favorites-list");
+  const showFavoritesButton = document.getElementById("showfavorites");
+  const closeFavoritesModal = document.getElementById("close-favorites-modal");
+
+  // Event listener to open the favorites modal
+  showFavoritesButton.addEventListener("click", () => {
+    populateFavoritesList();
+    favoritesModal.classList.add("is-active");
+  });
+
+  // Event listener to close the favorites modal
+  closeFavoritesModal.addEventListener("click", () => {
+    favoritesModal.classList.remove("is-active");
+  });
+  
+
 // Close the circuit modal
 closeCircuitModalButton.addEventListener("click", () => closeModal(circuitModal));
 

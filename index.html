@@ -26,6 +26,7 @@
           <img src="assets/car-logo-vector-illustration_762078-124.avif" alt="Logo" width="50" height="50">
         </a>
         <a class="navbar-item" href="https://github.com/nsriv531/COMP3512-Assignment_2" target="_blank">GitHub Repo</a>
+        <a class="navbar-item" id="showfavorites" target="_blank">Show Favorites</a>
       </div>
     </div>
   </nav>
@@ -93,6 +94,32 @@
   
         <!-- Results Section -->
         <div class="column is-half">
+
+          <div id="podium" class="box mt-4">
+            <h3 class="title is-5">Podium</h3>
+            <div class="podium-container">
+              <!-- Silver (2nd Place) -->
+              <div class="podium-place silver">
+                <h4 class="podium-position">2nd</h4>
+                <p class="driver-name">Charles Leclerc</p>
+                <p class="constructor-name">Ferrari</p>
+              </div>
+  
+              <!-- Gold (1st Place) -->
+              <div class="podium-place gold">
+                <h4 class="podium-position">1st</h4>
+                <p class="driver-name">Max Verstappen</p>
+                <p class="constructor-name">Red Bull</p>
+              </div>
+  
+              <!-- Bronze (3rd Place) -->
+              <div class="podium-place bronze">
+                <h4 class="podium-position">3rd</h4>
+                <p class="driver-name">Lewis Hamilton</p>
+                <p class="constructor-name">Mercedes</p>
+              </div>
+            </div>
+          </div>
           <div id="results-container" class="box">
             <h2 class="subtitle">Results</h2>
             
@@ -132,31 +159,7 @@
             </div>
   
             <!-- Podium Section -->
-            <div id="podium" class="box mt-4">
-              <h3 class="title is-5">Podium</h3>
-              <div class="podium-container">
-                <!-- Silver (2nd Place) -->
-                <div class="podium-place silver">
-                  <h4 class="podium-position">2nd</h4>
-                  <p class="driver-name">Charles Leclerc</p>
-                  <p class="constructor-name">Ferrari</p>
-                </div>
-    
-                <!-- Gold (1st Place) -->
-                <div class="podium-place gold">
-                  <h4 class="podium-position">1st</h4>
-                  <p class="driver-name">Max Verstappen</p>
-                  <p class="constructor-name">Red Bull</p>
-                </div>
-    
-                <!-- Bronze (3rd Place) -->
-                <div class="podium-place bronze">
-                  <h4 class="podium-position">3rd</h4>
-                  <p class="driver-name">Lewis Hamilton</p>
-                  <p class="constructor-name">Mercedes</p>
-                </div>
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>
@@ -244,6 +247,19 @@
         <p><strong>Country:</strong> <span id="circuit-country"></span></p>
         <p><strong>Website:</strong> <span id="circuit-url"></span></p>
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="favorites-modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <button class="delete" id="close-favorites-modal"></button>
+      <h3 class="title">Favorites</h3>
+      <ul id="favorites-list">
+        <!-- Favorites will be dynamically populated here -->
+      </ul>
     </div>
   </div>
 </div>
