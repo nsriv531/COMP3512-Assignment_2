@@ -248,51 +248,44 @@ async function fetchCircuitDetails(circuitRef) {
             return;
         }
 
+        // Fetch constructor race results
         const response = await fetch(
             `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructorResults.php?constructor=${constructorRef}&season=${season}`
         );
 
-        console.log(constructorRef);
-        console.log(season);
-        if (!response.ok) {
-            console.error("Failed to fetch constructor data:", response.statusText);
+        // Fetch additional constructor details
+        const responsede = await fetch(
+            `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?ref=${constructorRef}`
+        );
+
+        if (!response.ok || !responsede.ok) {
+            console.error("Failed to fetch constructor data:", response.statusText, responsede.statusText);
             return;
         }
 
         const data = await response.json();
-
-        // Log the data for debugging
+        const otherData = await responsede.json(); // Additional constructor details
         console.log("Constructor Data Response:", data);
+        console.log("Additional Constructor Data:", otherData);
 
-        // Handle API error response
-        if (data.error) {
-            console.error("API Error:", data.error);
+        // Handle API error responses
+        if (data.error || !Array.isArray(data)) {
+            console.error("API Error or unexpected data format:", data.error);
             constructorName.textContent = "Error loading constructor details";
             constructorRaceResults.innerHTML = "<tr><td colspan='4'>Unable to load data</td></tr>";
             openModal(constructorModal);
             return;
         }
 
-        // Check if data is an array
-        if (!Array.isArray(data)) {
-            console.error("Constructor data is not an array");
-            constructorName.textContent = "Error loading constructor details";
-            constructorRaceResults.innerHTML = "<tr><td colspan='4'>Unable to load data</td></tr>";
-            openModal(constructorModal);
-            return;
-        }
-
-        // Sort the results by round
+        // Sort results by round
         data.sort((a, b) => a.round - b.round);
 
-        // Extract constructor details from the first item
-        const constructor = data[0]?.constructor;
+        // Update modal with fetched constructor details
+        constructorName.textContent = otherData.name || "Unknown";
+        constructorNationality.textContent = otherData.nationality || "Unknown";
+        constructorURL.innerHTML = `<a href="${otherData.url}" target="_blank">${otherData.url || "No website available"}</a>`;
 
-        constructorName.textContent = constructor?.name || "Unknown";
-        constructorNationality.textContent = constructor?.nationality || "Unknown";
-        constructorURL.innerHTML = `<a href="${constructor?.url}" target="_blank">${constructor?.url || "No website available"}</a>`;
-
-        // Map over the data to create table rows
+        // Map over the race results data to create table rows
         constructorRaceResults.innerHTML = data
             .map(
                 (result) => `
@@ -313,7 +306,6 @@ async function fetchCircuitDetails(circuitRef) {
         openModal(constructorModal);
     }
 }
-  
 
   // Fetch driver details
   async function fetchDriverDetails(driverRef) {
