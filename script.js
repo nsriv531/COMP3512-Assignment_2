@@ -201,7 +201,7 @@ async function fetchCircuitDetails(circuitRef) {
     console.log(qualifyingData);
     raceResults.innerHTML = raceData
       .map((r) => {
-        const constructorRef = r.constructor.name || "N/A"; // Fallback to "N/A" if undefined
+        const constructorRef = r.constructor.ref || "N/A"; // Fallback to "N/A" if undefined
         return `
           <tr>
             <td>${r.position}</td>
