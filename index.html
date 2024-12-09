@@ -200,10 +200,22 @@
   <div class="modal-content">
     <div class="box">
       <button id="close-driver-modal" class="delete"></button>
-      <h3 id="driver-name"></h3>
-      <p id="driver-nationality"></p>
-      <p id="driver-dob"></p>
-      <div id="driver-url"></div>
+      <h3 id="driver-name" class="title is-4"></h3>
+      <p><strong>Nationality:</strong> <span id="driver-nationality"></span></p>
+      <p><strong>Date of Birth:</strong> <span id="driver-dob"></span></p>
+      <p><strong>Biography:</strong> <span id="driver-url"></span></p>
+      <h4 class="title is-5 mt-4">Race Results:</h4>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Round</th>
+            <th>Race</th>
+            <th>Position</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody id="driver-race-results"></tbody>
+      </table>
     </div>
   </div>
 </div>
