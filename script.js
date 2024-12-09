@@ -73,28 +73,42 @@ async function fetchCircuitDetails(circuitRef) {
   // Handle "View Races" button click
   viewRacesBtn.addEventListener("click", async () => {
     const selectedSeason = seasonSelect.value;
-
+  
     if (!selectedSeason) {
       raceViewMessage.textContent = "Please select a season.";
       raceList.innerHTML = "";
       return;
     }
-
+  
     try {
-      const response = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${selectedSeason}`
-      );
-      const races = await response.json();
-
+      let races;
+  
+      // Check local storage for existing data
+      const storedData = localStorage.getItem(`races_${selectedSeason}`);
+      if (storedData) {
+        races = JSON.parse(storedData);
+        console.log(`Retrieved races for ${selectedSeason} from local storage.`);
+      } else {
+        // Fetch races data if not in local storage
+        const response = await fetch(
+          `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${selectedSeason}`
+        );
+        races = await response.json();
+  
+        // Save the fetched data to local storage
+        localStorage.setItem(`races_${selectedSeason}`, JSON.stringify(races));
+        console.log(`Fetched and saved races for ${selectedSeason} to local storage.`);
+      }
+  
       if (races.length === 0) {
         raceViewMessage.textContent = `No races found for the ${selectedSeason} season.`;
         raceList.innerHTML = "";
         return;
       }
-
+  
       raceViewMessage.textContent = `Races for the ${selectedSeason} Season:`;
       raceList.innerHTML = "";
-
+  
       races.forEach((race) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
@@ -106,7 +120,7 @@ async function fetchCircuitDetails(circuitRef) {
           </div>
         `;
         raceList.appendChild(listItem);
-
+  
         // Add event listener to each "View Results" button
         listItem.querySelector(".view-results-btn").addEventListener("click", () => {
           fetchAndDisplayResults(race.id);
@@ -118,6 +132,7 @@ async function fetchCircuitDetails(circuitRef) {
       raceViewMessage.textContent = "Failed to load race data.";
     }
   });
+  
 
   // Fetch and display results
   async function fetchAndDisplayResults(raceId) {
