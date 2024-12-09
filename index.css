@@ -118,6 +118,26 @@ body {
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Scrollable Sections */
+#race-list,
+#qualifying-section table tbody,
+#race-results-section table tbody {
+  max-height: 300px; /* Adjust as needed */
+  overflow-y: auto;
+  display: block; /* Ensures scrollability */
+}
+
+#qualifying-section table thead,
+#race-results-section table thead {
+  display: table; /* Keeps headers visible */
+  width: 100%;
+}
+
+#qualifying-section table tbody,
+#race-results-section table tbody {
+  width: 100%;
+}
+
 /* Race List Item */
 #race-list li {
   background: #ffffff;
