@@ -50,8 +50,6 @@ async function fetchCircuitDetails(circuitRef) {
     circuitURL.innerHTML = circuitData.url
       ? `<a href="${circuitData.url}" target="_blank">${circuitData.url}</a>`
       : "No website available";
-    circuitImage.src = circuitData.image || "default-image.png"; // Use a default image if none is provided
-
     openModal(circuitModal);
   } catch (error) {
     console.error("Error fetching circuit details:", error);
