@@ -37,10 +37,10 @@ closeCircuitModalButton.addEventListener("click", () => closeModal(circuitModal)
 async function fetchCircuitDetails(circuitRef) {
   try {
     const response = await fetch(
-      `https://www.randyconnolly.com/funwebdev/3rd/api/f1/circuits.php?ref=${circuitRef}`
+      `https://www.randyconnolly.com/funwebdev/3rd/api/f1/circuits.php?id=${circuitRef}`
     );
     const circuit = await response.json();
-
+    console.log(circuit);
     // Assuming circuit data is an array, take the first element
     const circuitData = Array.isArray(circuit) ? circuit[0] : circuit;
 
@@ -158,7 +158,7 @@ async function fetchCircuitDetails(circuitRef) {
     raceDetailsContainer.innerHTML = `
       <h2 class="title">Results for ${race.name || "N/A"}</h2>
       <p><strong>Round:</strong> ${race.round || "N/A"}</p>
-      <p><strong>Year:</strong> ${race.season || "N/A"}</p>
+      <p><strong>Year:</strong> ${race.year || "N/A"}</p>
       <p>
         <strong>Circuit:</strong> 
         <a href="#" class="circuit-link" data-circuit-ref="${race.circuit.id}">
@@ -175,6 +175,7 @@ async function fetchCircuitDetails(circuitRef) {
       circuitLink.addEventListener("click", (event) => {
         event.preventDefault();
         const circuitRef = circuitLink.getAttribute("data-circuit-ref");
+        console.log(circuitRef);
         fetchCircuitDetails(circuitRef);
       });
     }
