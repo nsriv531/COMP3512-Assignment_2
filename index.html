@@ -78,12 +78,12 @@
 
   <section class="section" id="race-view">
     <div class="container">
-      <div id="race-details" class="box is-small" style="max-width: 600px; margin: auto; padding: 1rem;">
-        <!-- Race-specific details will be dynamically inserted here -->
-      </div>
       <div class="columns">
         <!-- Race List Section -->
         <div class="column is-half">
+          <div id="race-details" class="box is-small" style="max-width: 600px; margin-bottom: 1rem; padding: 1rem;">
+            <!-- Race-specific details will be dynamically inserted here -->
+          </div>
           <div class="box">
             <h1 class="title">Race Details</h1>
             <p id="race-view-message" class="content has-text-grey">No season selected</p>
@@ -114,37 +114,8 @@
               </table>
             </div>
   
-
-            
             <!-- Race Results -->
             <div id="race-results-section">
-
-              <div id="podium" class="box mt-4">
-                <h3 class="title is-5">Podium</h3>
-                <div class="podium-container">
-                  <!-- Silver (2nd Place) -->
-                  <div class="podium-place silver">
-                    <h4 class="podium-position">2nd</h4>
-                    <p class="driver-name">Charles Leclerc</p>
-                    <p class="constructor-name">Ferrari</p>
-                  </div>
-    
-                  <!-- Gold (1st Place) -->
-                  <div class="podium-place gold">
-                    <h4 class="podium-position">1st</h4>
-                    <p class="driver-name">Max Verstappen</p>
-                    <p class="constructor-name">Red Bull</p>
-                  </div>
-    
-                  <!-- Bronze (3rd Place) -->
-                  <div class="podium-place bronze">
-                    <h4 class="podium-position">3rd</h4>
-                    <p class="driver-name">Lewis Hamilton</p>
-                    <p class="constructor-name">Mercedes</p>
-                  </div>
-                </div>
-              </div>
-            </div>
               <h3 class="title is-5">Race Results</h3>
               <table class="table is-fullwidth">
                 <thead>
@@ -161,7 +132,32 @@
             </div>
   
             <!-- Podium Section -->
-            
+            <div id="podium" class="box mt-4">
+              <h3 class="title is-5">Podium</h3>
+              <div class="podium-container">
+                <!-- Silver (2nd Place) -->
+                <div class="podium-place silver">
+                  <h4 class="podium-position">2nd</h4>
+                  <p class="driver-name">Charles Leclerc</p>
+                  <p class="constructor-name">Ferrari</p>
+                </div>
+    
+                <!-- Gold (1st Place) -->
+                <div class="podium-place gold">
+                  <h4 class="podium-position">1st</h4>
+                  <p class="driver-name">Max Verstappen</p>
+                  <p class="constructor-name">Red Bull</p>
+                </div>
+    
+                <!-- Bronze (3rd Place) -->
+                <div class="podium-place bronze">
+                  <h4 class="podium-position">3rd</h4>
+                  <p class="driver-name">Lewis Hamilton</p>
+                  <p class="constructor-name">Mercedes</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

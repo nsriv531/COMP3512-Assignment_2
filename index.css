@@ -71,6 +71,7 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
+
 /* Specific Styling for Gold, Silver, Bronze */
 .gold {
   background: linear-gradient(135deg, #ffd700, #ffcc33);
