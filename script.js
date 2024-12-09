@@ -310,32 +310,67 @@ async function fetchCircuitDetails(circuitRef) {
   // Fetch driver details
   async function fetchDriverDetails(driverRef) {
     try {
-      const response = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/drivers.php?ref=${driverRef}`
-      );
-      const driver = await response.json();
-  
-      // Debugging logs
-      console.log("Driver Ref:", driverRef);
-      console.log("API Response:", driver);
-  
-      if (driver.length === 0) {
-        throw new Error("Driver not found");
-      }
-  
-      driverName.textContent = `${driver[0]?.forename} ${driver[0]?.surname}`;
-      driverNationality.textContent = driver[0]?.nationality || "Unknown";
-      driverDob.textContent = driver[0]?.dob || "Unknown"; // Check for 'dob' instead of 'dateOfBirth'
-      driverURL.innerHTML = `<a href="${driver[0]?.url}" target="_blank">Biography</a>`;
-  
-      openModal(driverModal);
+        // Fetch driver details
+        const driverResponse = await fetch(
+            `https://www.randyconnolly.com/funwebdev/3rd/api/f1/drivers.php?ref=${driverRef}`
+        );
+        const driver = await driverResponse.json();
+
+        // Debugging logs
+        console.log("Driver Ref:", driverRef);
+        console.log("API Response:", driver);
+
+        if (!driver || Object.keys(driver).length === 0) {
+            throw new Error("Driver not found");
+        }
+
+        // Set driver details in modal
+        driverName.textContent = `${driver.forename} ${driver.surname}`;
+        driverNationality.textContent = driver.nationality || "Unknown";
+        driverDob.textContent = driver.dob || "Unknown"; // 'dob' property
+        driverURL.innerHTML = `<a href="${driver.url}" target="_blank">Biography</a>`;
+
+        // Fetch race results for the driver
+        const selectedSeason = document.getElementById("season-select").value; // Get the selected season
+        const raceResultsResponse = await fetch(
+            `https://www.randyconnolly.com/funwebdev/3rd/api/f1/driverResults.php?driver=${driverRef}&season=${selectedSeason}`
+        );
+        const raceResults = await raceResultsResponse.json();
+
+        // Debugging logs
+        console.log("Driver Race Results:", raceResults);
+
+        // Populate race results in the modal
+        const driverRaceResults = document.getElementById("driver-race-results");
+        if (raceResults.length > 0) {
+            driverRaceResults.innerHTML = raceResults
+                .map(
+                    (result) => `
+                    <tr>
+                        <td>${result.round}</td>
+                        <td>${result.name || "N/A"}</td>
+                        <td>${result.positionOrder || "N/A"}</td>
+                        <td>${result.points || 0}</td>
+                    </tr>`
+                )
+                .join("");
+        } else {
+            driverRaceResults.innerHTML = `<tr><td colspan="4">No race results available</td></tr>`;
+        }
+
+        openModal(driverModal);
     } catch (error) {
-      console.error("Error fetching driver data:", error);
-      driverName.textContent = "Error loading driver details";
-      driverNationality.textContent = "Unknown";
-      driverDob.textContent = "Unknown";
-      driverURL.innerHTML = "No biography available";
-      openModal(driverModal);
+        console.error("Error fetching driver data:", error);
+
+        // Set error message in the modal
+        driverName.textContent = "Error loading driver details";
+        driverNationality.textContent = "Unknown";
+        driverDob.textContent = "Unknown";
+        driverURL.innerHTML = "No biography available";
+        const driverRaceResults = document.getElementById("driver-race-results");
+        driverRaceResults.innerHTML = `<tr><td colspan="4">Unable to load race results</td></tr>`;
+
+        openModal(driverModal);
     }
-  }
+}
 });
