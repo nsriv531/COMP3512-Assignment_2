@@ -1,28 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const seasonSelect = document.getElementById("season-select");
-  const viewRacesBtn = document.getElementById("view-races-btn");
-  const raceList = document.getElementById("race-list");
-  const raceViewMessage = document.getElementById("race-view-message");
-  const qualifyingResults = document.getElementById("qualifying-results");
-  const raceResults = document.getElementById("race-results");
+const seasonSelect = document.getElementById("season-select");
+const viewRacesBtn = document.getElementById("view-races-btn");
+const raceList = document.getElementById("race-list");
+const raceViewMessage = document.getElementById("race-view-message");
+const qualifyingResults = document.getElementById("qualifying-results");
+const raceResults = document.getElementById("race-results");
 
   // Modal elements for constructors
-  const constructorModal = document.getElementById("constructor-modal");
-  const closeModalButton = document.getElementById("close-modal");
-  const constructorName = document.getElementById("constructor-name");
-  const constructorNationality = document.getElementById("constructor-nationality");
-  const constructorURL = document.getElementById("constructor-url");
-  const constructorRaceResults = document.getElementById("constructor-race-results");
+const constructorModal = document.getElementById("constructor-modal");
+const closeModalButton = document.getElementById("close-modal");
+const constructorName = document.getElementById("constructor-name");
+const constructorNationality = document.getElementById("constructor-nationality");
+const constructorURL = document.getElementById("constructor-url");
+const constructorRaceResults = document.getElementById("constructor-race-results");
 
   // Modal elements for drivers
-  const driverModal = document.getElementById("driver-modal");
-  const closeDriverModalButton = document.getElementById("close-driver-modal");
-  const driverName = document.getElementById("driver-name");
-  const driverNationality = document.getElementById("driver-nationality");
-  const driverDob = document.getElementById("driver-dob");
-  const driverURL = document.getElementById("driver-url");
+const driverModal = document.getElementById("driver-modal");
+const closeDriverModalButton = document.getElementById("close-driver-modal");
+const driverName = document.getElementById("driver-name");
+const driverNationality = document.getElementById("driver-nationality");
+const driverDob = document.getElementById("driver-dob");
+const driverURL = document.getElementById("driver-url");
 
-  const circuitModal = document.getElementById("circuit-modal");
+const circuitModal = document.getElementById("circuit-modal");
 const closeCircuitModalButton = document.getElementById("close-circuit-modal");
 const circuitName = document.getElementById("circuit-name");
 const circuitLocation = document.getElementById("circuit-location");
