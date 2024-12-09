@@ -135,35 +135,65 @@ async function fetchCircuitDetails(circuitRef) {
   // Fetch and display results
   async function fetchAndDisplayResults(raceId) {
     try {
-
-      const raceDetailsResponse = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?id=${raceId}`
-      );
-      const raceDetails = await raceDetailsResponse.json();
-      console.log(raceDetails);
-
-      const qualifyingResponse = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`
-      );
-      const qualifyingData = await qualifyingResponse.json();
-
-      const raceResponse = await fetch(
-        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`
-      );
-      const raceData = await raceResponse.json();
-
-
+      let qualifyingData, raceData, raceDetails;
+  
+      // Check local storage for race details
+      const raceDetailsKey = `race_details_${raceId}`;
+      const storedRaceDetails = localStorage.getItem(raceDetailsKey);
+      if (storedRaceDetails) {
+        raceDetails = JSON.parse(storedRaceDetails);
+        console.log(`Retrieved race details for ${raceId} from local storage.`);
+      } else {
+        const raceDetailsResponse = await fetch(
+          `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?id=${raceId}`
+        );
+        raceDetails = await raceDetailsResponse.json();
+        localStorage.setItem(raceDetailsKey, JSON.stringify(raceDetails));
+        console.log(`Fetched and saved race details for ${raceId} to local storage.`);
+      }
+  
+      // Check local storage for qualifying data
+      const qualifyingKey = `qualifying_${raceId}`;
+      const storedQualifyingData = localStorage.getItem(qualifyingKey);
+      if (storedQualifyingData) {
+        qualifyingData = JSON.parse(storedQualifyingData);
+        console.log(`Retrieved qualifying data for ${raceId} from local storage.`);
+      } else {
+        const qualifyingResponse = await fetch(
+          `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`
+        );
+        qualifyingData = await qualifyingResponse.json();
+        localStorage.setItem(qualifyingKey, JSON.stringify(qualifyingData));
+        console.log(`Fetched and saved qualifying data for ${raceId} to local storage.`);
+      }
+  
+      // Check local storage for race results
+      const raceKey = `race_results_${raceId}`;
+      const storedRaceData = localStorage.getItem(raceKey);
+      if (storedRaceData) {
+        raceData = JSON.parse(storedRaceData);
+        console.log(`Retrieved race results for ${raceId} from local storage.`);
+      } else {
+        const raceResponse = await fetch(
+          `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`
+        );
+        raceData = await raceResponse.json();
+        localStorage.setItem(raceKey, JSON.stringify(raceData));
+        console.log(`Fetched and saved race results for ${raceId} to local storage.`);
+      }
+  
+      // Display data
       displayRaceDetails(raceDetails);
       displayResults(qualifyingData, raceData);
     } catch (error) {
       console.error("Error fetching results:", error);
     }
   }
-
+  
+  // Display race details
   function displayRaceDetails(race) {
     const raceDetailsContainer = document.getElementById("race-details");
   
-    // Check if race is an array
     if (Array.isArray(race) && race.length > 0) {
       race = race[0]; // Use the first item if it's an array
     }
@@ -188,17 +218,16 @@ async function fetchCircuitDetails(circuitRef) {
       circuitLink.addEventListener("click", (event) => {
         event.preventDefault();
         const circuitRef = circuitLink.getAttribute("data-circuit-ref");
-        console.log(circuitRef);
         fetchCircuitDetails(circuitRef);
       });
     }
   }
-
+  
   // Display qualifying and race results
   function displayResults(qualifyingData, raceData) {
     qualifyingResults.innerHTML = qualifyingData
       .map((q) => {
-        const constructorRef = q.constructor.ref || "N/A"; // Fallback to "N/A" if undefined
+        const constructorRef = q.constructor.ref || "N/A";
         return `
           <tr>
             <td>${q.position}</td>
@@ -215,7 +244,7 @@ async function fetchCircuitDetails(circuitRef) {
   
     raceResults.innerHTML = raceData
       .map((r) => {
-        const constructorRef = r.constructor.ref || "N/A"; // Fallback to "N/A" if undefined
+        const constructorRef = r.constructor.ref || "N/A";
         return `
           <tr>
             <td>${r.position}</td>
