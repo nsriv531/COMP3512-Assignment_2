@@ -28,7 +28,6 @@ const circuitName = document.getElementById("circuit-name");
 const circuitLocation = document.getElementById("circuit-location");
 const circuitCountry = document.getElementById("circuit-country");
 const circuitURL = document.getElementById("circuit-url");
-const circuitImage = document.getElementById("circuit-image");
 
 const favoritesModal = document.getElementById("favorites-modal");
 const favoritesList = document.getElementById("favorites-list");
