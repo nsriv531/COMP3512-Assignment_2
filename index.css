@@ -209,7 +209,9 @@ body {
 }
 
 /* Text Styling in Modals */
-.modal .box p,
+.modal .box p{
+  color: #ffffff; /* White text for readability */
+}
 .modal .box h3,
 .modal .box h4,
 .modal .box span {
@@ -235,7 +237,7 @@ body {
 }
 
 .modal .box table th {
-  background-color: #3a3a4f; /* Slightly darker header background */
+  background-color: #eaf3ef; /* Slightly darker header background */
   font-weight: bold; /* Bold font for headers */
   text-transform: uppercase; /* Uppercase headers */
 }
@@ -330,3 +332,83 @@ body {
   background: #f0f4f8; /* Scrollbar track color */
 }
 
+/* Circuit Modal Styling */
+#circuit-modal .box {
+  background-color: #1e1e2f; /* Dark background for the modal */
+  border-radius: 12px;
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+  color: #e0e0e0; /* Light text for readability */
+}
+
+/* Modal Header Styling */
+#circuit-modal .title {
+  color: #ffffff; /* White text for the circuit name */
+  margin-bottom: 10px;
+}
+
+/* Circuit Image Styling */
+#circuit-modal figure.image {
+  margin: 0 auto; /* Center the image */
+  width: 70%; /* Reduce image size */
+  max-width: 300px; /* Set a max width for larger screens */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add shadow for better aesthetics */
+}
+
+/* Circuit Details Styling */
+#circuit-details {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #2a2a3a; /* Slightly lighter dark background for contrast */
+  border-radius: 8px;
+}
+
+#circuit-details p {
+  color: #ffffff; /* White text for readability */
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+#circuit-details p strong {
+  color: #4a90e2; /* Highlight key labels */
+  font-weight: bold;
+}
+
+/* Circuit Website Link Styling */
+#circuit-details span a {
+  color: #4a90e2; /* Blue link color */
+  text-decoration: underline;
+}
+
+#circuit-details span a:hover {
+  color: #357abf; /* Slightly darker blue on hover */
+}
+
+/* Close Button Styling */
+#close-circuit-modal {
+  color: #ffffff; /* White close icon */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#close-circuit-modal:hover {
+  color: #4a90e2; /* Change color on hover */
+}
+
+/* Responsive Design for Circuit Modal */
+@media screen and (max-width: 768px) {
+  #circuit-modal figure.image {
+    width: 90%; /* Increase size for smaller screens */
+  }
+
+  #circuit-details {
+    font-size: 0.9rem; /* Reduce font size slightly */
+  }
+}
