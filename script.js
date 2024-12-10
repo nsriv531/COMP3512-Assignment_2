@@ -337,35 +337,35 @@ async function fetchCircuitDetails(circuitRef) {
   function displayResults(qualifyingData, raceData) {
     // Populate Qualifying Results Table
     qualifyingResults.innerHTML = qualifyingData
-      .map((q) => {
-        const constructorRef = q.constructor.ref || "N/A";
-        return `
-          <tr>
-            <td data-field="position">${q.position}</td>
-            <td data-field="name">${q.driver.forename} ${q.driver.surname}</td>
-            <td data-field="constructor">${q.constructor.name}</td>
-            <td data-field="q1">${q.q1 || "--"}</td>
-            <td data-field="q2">${q.q2 || "--"}</td>
-            <td data-field="q3">${q.q3 || "--"}</td>
-          </tr>`;
-      })
-      .join("");
+    .map((q) => {
+      const constructorRef = q.constructor.ref || "N/A";
+      return `
+        <tr>
+          <td data-field="position">${q.position}</td>
+          <td data-field="name"><a href="#" class="driver-link" data-driver-id="${q.driver.ref}">${q.driver.forename} ${q.driver.surname}</a></td>
+          <td data-field="constructor"><a href="#" class="constructor-link" data-constructor-ref="${constructorRef}">${q.constructor.name}</a></td>
+          <td data-field="q1">${q.q1 || "--"}</td>
+          <td data-field="q2">${q.q2 || "--"}</td>
+          <td data-field="q3">${q.q3 || "--"}</td>
+        </tr>`;
+    })
+    .join("");
   
-    // Populate Race Results Table
     raceResults.innerHTML = raceData
-      .map((r) => {
-        const constructorRef = r.constructor.ref || "N/A";
-        return `
-          <tr>
-            <td data-field="position">${r.position}</td>
-            <td data-field="name">${r.driver.forename} ${r.driver.surname}</td>
-            <td data-field="constructor">${r.constructor.name}</td>
-            <td data-field="laps">${r.laps}</td>
-            <td data-field="points">${r.points}</td>
-          </tr>`;
-      })
-      .join("");
+    .map((r) => {
+      const constructorRef = r.constructor.ref || "N/A";
+      return `
+        <tr>
+          <td data-field="position">${r.position}</td>
+          <td data-field="name"><a href="#" class="driver-link" data-driver-id="${r.driver.ref}">${r.driver.forename} ${r.driver.surname}</a></td>
+          <td data-field="constructor"><a href="#" class="constructor-link" data-constructor-ref="${constructorRef}">${r.constructor.name}</a></td>
+          <td data-field="laps">${r.laps}</td>
+          <td data-field="points">${r.points}</td>
+        </tr>`;
+    })
+    .join("");
   
+    updatePodium(raceData);
     // Ensure headers are clickable and sorting works
     enableTableSorting();
   
@@ -388,6 +388,22 @@ async function fetchCircuitDetails(circuitRef) {
     });
   }
   
+  document.addEventListener("click", (event) => {
+    // Handle driver links
+    if (event.target.classList.contains("driver-link")) {
+      event.preventDefault();
+      const driverId = event.target.getAttribute("data-driver-id");
+      if (driverId) fetchDriverDetails(driverId);
+    }
+  
+    // Handle constructor links
+    if (event.target.classList.contains("constructor-link")) {
+      event.preventDefault();
+      const constructorRef = event.target.getAttribute("data-constructor-ref");
+      if (constructorRef) fetchConstructorDetails(constructorRef, seasonSelect.value);
+    }
+  });
+
   
   function updatePodium(raceData) {
     // Get the top 3 results
