@@ -403,10 +403,12 @@ body {
 .box {
   background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Subtle gradient background */
   border-radius: 12px; /* Rounded corners for a modern look */
-  padding: 25px; /* Spacious padding for better readability */
+  padding: 20px; /* Reduce padding for a sleeker design */
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Elevated shadow for depth */
   overflow-y: auto; /* Enable vertical scrolling */
   max-height: 500px; /* Limit the height for scrollable content */
+  max-width: 600px; /* Set a maximum width to make the box skinnier */
+  margin: 0 auto; /* Center the box horizontally */
   border: 1px solid #e0e0e0; /* Soft border for structure */
   transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effects */
 }
@@ -486,8 +488,9 @@ body {
 /* Media Query for Responsiveness */
 @media screen and (max-width: 768px) {
   .box {
-    padding: 20px; /* Slightly reduce padding for smaller screens */
+    padding: 15px; /* Further reduce padding for smaller screens */
     max-height: 400px; /* Adjust max height */
+    max-width: 90%; /* Ensure it fits smaller screens */
   }
 
   .box .title {
