@@ -103,153 +103,80 @@ body {
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Race Details Section */
-#race-view .box {
-  background: #ffffff;
-  border: 1px solid #d6dde6;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+/* Results Container Styling */
+#results-container {
   padding: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#race-view .box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Scrollable Sections */
-#race-list,
-#qualifying-section table tbody,
-#race-results-section table tbody {
-  max-height: 300px; /* Adjust as needed */
-  overflow-y: auto;
-  display: block; /* Ensures scrollability */
-}
-
-#qualifying-section table thead,
-#race-results-section table thead {
-  display: table; /* Keeps headers visible */
-  width: 100%;
-}
-
-#qualifying-section table tbody,
-#race-results-section table tbody {
-  width: 100%;
-}
-
-/* Race List Item */
-#race-list li {
-  background: #ffffff;
-  border: 1px solid #eaeaea;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  padding: 15px;
+#results-container .columns {
   display: flex;
-  flex-direction: column;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, transform 0.2s;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-#race-list li:hover {
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-  transform: translateY(-3px);
+#results-container .column {
+  flex: 1 1 calc(50% - 10px); /* Each table takes up half the width minus the gap */
+  max-width: 48%; /* Ensures the tables fit side by side */
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  overflow-x: auto; /* Enables horizontal scrolling if needed */
 }
 
-#race-list li h3 {
-  font-size: 1.3rem;
-  color: #34495e;
-  margin-bottom: 5px;
-}
-
-#race-list li p {
-  font-size: 0.95rem;
-  color: #7f8c8d;
-}
-
-#race-list li button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  background: #3498db;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-#race-list li button:hover {
-  background: #2980b9;
-  transform: scale(1.05);
-}
-
-/* Qualifying and Race Results Table */
-#qualifying-section table,
-#race-results-section table {
+/* Table Styling */
+#results-container table {
   background: #fefefe;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  overflow: hidden;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  table-layout: fixed; /* Ensures consistent column widths */
+  table-layout: auto; /* Allow flexible column widths */
+  font-size: 0.8rem; /* Smaller font size to fit content */
 }
 
-#qualifying-section th,
-#race-results-section th,
-#qualifying-section td,
-#race-results-section td {
-  padding: 10px;
+#results-container th,
+#results-container td {
+  padding: 8px; /* Reduced padding */
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   border-bottom: 1px solid #f0f0f0;
-  overflow: hidden; /* Prevents content overflow */
-  text-overflow: ellipsis; /* Adds ellipsis for overflowed content */
-  white-space: nowrap; /* Prevents text from wrapping */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
-#qualifying-section th,
-#race-results-section th {
+#results-container th {
   background: #4a90e2;
   color: white;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-/* Add consistent widths for each column */
-#qualifying-section th:nth-child(1),
-#race-results-section th:nth-child(1),
-#qualifying-section td:nth-child(1),
-#race-results-section td:nth-child(1) {
-  width: 10%;
+#results-container td {
+  text-overflow: ellipsis; /* Ensures text fits and shows ellipsis if too long */
+  overflow: hidden;
 }
 
-#qualifying-section th:nth-child(2),
-#race-results-section th:nth-child(2),
-#qualifying-section td:nth-child(2),
-#race-results-section td:nth-child(2) {
-  width: 25%;
+#results-container .column table {
+  margin-bottom: 15px;
 }
 
-#qualifying-section th:nth-child(3),
-#race-results-section th:nth-child(3),
-#qualifying-section td:nth-child(3),
-#race-results-section td:nth-child(3) {
-  width: 25%;
-}
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  #results-container .columns {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-#qualifying-section th:nth-child(4),
-#race-results-section th:nth-child(4),
-#qualifying-section td:nth-child(4),
-#race-results-section td:nth-child(4),
-#qualifying-section th:nth-child(5),
-#race-results-section th:nth-child(5),
-#qualifying-section td:nth-child(5),
-#race-results-section td:nth-child(5),
-#qualifying-section th:nth-child(6),
-#qualifying-section td:nth-child(6) {
-  width: 15%;
+  #results-container .column {
+    flex: 1 1 100%; /* Tables stack vertically on smaller screens */
+    max-width: 100%;
+  }
+
+  #results-container table {
+    font-size: 0.7rem; /* Further reduce font size on smaller screens */
+  }
 }
 
 /* Modal */

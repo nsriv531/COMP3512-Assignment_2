@@ -122,45 +122,48 @@
           </div>
           <div id="results-container" class="box">
             <h2 class="subtitle">Results</h2>
-            
-            <!-- Qualifying Results -->
-            <div id="qualifying-section">
-              <h3 class="title is-5">Qualifying Results</h3>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Pos</th>
-                    <th>Name</th>
-                    <th>Constructor</th>
-                    <th>Q1</th>
-                    <th>Q2</th>
-                    <th>Q3</th>
-                  </tr>
-                </thead>
-                <tbody id="qualifying-results"></tbody>
-              </table>
+            <div class="columns">
+              <!-- Qualifying Results Table -->
+              <div class="column is-half">
+                <h3 class="title is-5">Qualifying Results</h3>
+                <table class="table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Pos</th>
+                      <th>Name</th>
+                      <th>Constructor</th>
+                      <th>Q1</th>
+                      <th>Q2</th>
+                      <th>Q3</th>
+                    </tr>
+                  </thead>
+                  <tbody id="qualifying-results">
+                    <!-- Qualifying data dynamically inserted here -->
+                  </tbody>
+                </table>
+              </div>
+          
+              <!-- Race Results Table -->
+              <div class="column is-half">
+                <h3 class="title is-5">Race Results</h3>
+                <table class="table is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Pos</th>
+                      <th>Name</th>
+                      <th>Constructor</th>
+                      <th>Laps</th>
+                      <th>Points</th>
+                    </tr>
+                  </thead>
+                  <tbody id="race-results">
+                    <!-- Race data dynamically inserted here -->
+                  </tbody>
+                </table>
+              </div>
             </div>
-  
-            <!-- Race Results -->
-            <div id="race-results-section">
-              <h3 class="title is-5">Race Results</h3>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Pos</th>
-                    <th>Name</th>
-                    <th>Constructor</th>
-                    <th>Laps</th>
-                    <th>Points</th>
-                  </tr>
-                </thead>
-                <tbody id="race-results"></tbody>
-              </table>
-            </div>
-  
-            <!-- Podium Section -->
-           
           </div>
+          
         </div>
       </div>
     </div>
