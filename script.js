@@ -217,7 +217,7 @@ viewRacesBtn.addEventListener("click", async () => {
   }
 
   try {
-    loadingSpinner.style.display = "block"; // Show the spinner
+    loadingSpinner.style.display = "block"; // Show the spinner load animation
     let races;
 
     // Check local storage for existing data
@@ -232,7 +232,7 @@ viewRacesBtn.addEventListener("click", async () => {
       );
       races = await response.json();
 
-      // Save the fetched data to local storage
+      // This is where the fetched data is saved to local storage
       localStorage.setItem(`races_${selectedSeason}`, JSON.stringify(races));
       console.log(`Fetched and saved races for ${selectedSeason} to local storage.`);
     }
@@ -240,15 +240,15 @@ viewRacesBtn.addEventListener("click", async () => {
     if (races.length === 0) {
       raceViewMessage.textContent = `No races found for the ${selectedSeason} season.`;
       raceList.innerHTML = "";
-      loadingSpinner.style.display = "none"; // Hide the spinner
+      loadingSpinner.style.display = "none"; // Hiding the spinner
       return;
     }
 
-    // Hide the home section and display the race view section
+    // Hiding the home section and display the race view section
     homeSection.classList.replace("visible", "hidden");
     raceViewSection.classList.replace("hidden", "visible");
 
-    // Populate the race view
+    // Populating the race view
     raceViewMessage.textContent = `Races for the ${selectedSeason} Season:`;
     raceList.innerHTML = "";
 
@@ -264,7 +264,7 @@ viewRacesBtn.addEventListener("click", async () => {
       `;
       raceList.appendChild(listItem);
 
-      // Add event listener to each "View Results" button
+      // Added an event listener to each "View Results" button
       listItem.querySelector(".view-results-btn").addEventListener("click", () => {
         fetchAndDisplayResults(race.id);
         console.log(race.id);
@@ -677,7 +677,7 @@ function enableTableSorting() {
 
 const clearStorageButton = document.getElementById("clear-storage-btn");
 
-    // Event listener to clear all local storage
+    // Event listener to clear all local storage to test load animation.
     clearStorageButton.addEventListener("click", () => {
         if (confirm("Are you sure you want to clear all stored data? This action cannot be undone.")) {
             localStorage.clear(); // Clear all local storage
