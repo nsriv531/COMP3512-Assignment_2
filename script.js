@@ -34,6 +34,15 @@ const favoritesList = document.getElementById("favorites-list");
 const showFavoritesButton = document.getElementById("showfavorites");
 const closeFavoritesModal = document.getElementById("close-favorites-modal");
 
+const homeSection = document.getElementById("home");
+const raceViewSection = document.getElementById("race-view");
+const homeButton = document.getElementById("homebutton"); // Home button in navbar
+
+homeButton.addEventListener("click", (event) => {
+  event.preventDefault(); // Prevent default behavior of anchor
+  homeSection.classList.replace("hidden", "visible");
+  raceViewSection.classList.replace("visible", "hidden");
+});
   // Event listener to open the favorites modal
   function populateFavoritesList() {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -178,69 +187,77 @@ async function fetchCircuitDetails(circuitRef) {
   closeModalButton.addEventListener("click", () => closeModal(constructorModal));
   closeDriverModalButton.addEventListener("click", () => closeModal(driverModal));
 
-  // Handle "View Races" button click
-  viewRacesBtn.addEventListener("click", async () => {
-    const selectedSeason = seasonSelect.value;
-  
-    if (!selectedSeason) {
-      raceViewMessage.textContent = "Please select a season.";
+
+  homeSection.classList.add("visible");
+raceViewSection.classList.add("hidden");
+
+// Handle "View Races" button click
+viewRacesBtn.addEventListener("click", async () => {
+  const selectedSeason = seasonSelect.value;
+
+  if (!selectedSeason) {
+    raceViewMessage.textContent = "Please select a season.";
+    raceList.innerHTML = "";
+    return;
+  }
+
+  try {
+    let races;
+
+    // Check local storage for existing data
+    const storedData = localStorage.getItem(`races_${selectedSeason}`);
+    if (storedData) {
+      races = JSON.parse(storedData);
+      console.log(`Retrieved races for ${selectedSeason} from local storage.`);
+    } else {
+      // Fetch races data if not in local storage
+      const response = await fetch(
+        `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${selectedSeason}`
+      );
+      races = await response.json();
+
+      // Save the fetched data to local storage
+      localStorage.setItem(`races_${selectedSeason}`, JSON.stringify(races));
+      console.log(`Fetched and saved races for ${selectedSeason} to local storage.`);
+    }
+
+    if (races.length === 0) {
+      raceViewMessage.textContent = `No races found for the ${selectedSeason} season.`;
       raceList.innerHTML = "";
       return;
     }
-  
-    try {
-      let races;
-  
-      // Check local storage for existing data
-      const storedData = localStorage.getItem(`races_${selectedSeason}`);
-      if (storedData) {
-        races = JSON.parse(storedData);
-        console.log(`Retrieved races for ${selectedSeason} from local storage.`);
-      } else {
-        // Fetch races data if not in local storage
-        const response = await fetch(
-          `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${selectedSeason}`
-        );
-        races = await response.json();
-  
-        // Save the fetched data to local storage
-        localStorage.setItem(`races_${selectedSeason}`, JSON.stringify(races));
-        console.log(`Fetched and saved races for ${selectedSeason} to local storage.`);
-      }
-  
-      if (races.length === 0) {
-        raceViewMessage.textContent = `No races found for the ${selectedSeason} season.`;
-        raceList.innerHTML = "";
-        return;
-      }
-  
-      raceViewMessage.textContent = `Races for the ${selectedSeason} Season:`;
-      raceList.innerHTML = "";
-  
-      races.forEach((race) => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `
-          <div class="box">
-            <h2 class="title is-5">${race.name} (${race.date})</h2>
-            <p><strong>Round:</strong> ${race.round}</p>
-            <p><strong>Location:</strong> ${race.circuit.location}, ${race.circuit.country}</p>
-            <button class="button is-link view-results-btn" data-race-id="${race.id}">View Results</button>
-          </div>
-        `;
-        raceList.appendChild(listItem);
-  
-        // Add event listener to each "View Results" button
-        listItem.querySelector(".view-results-btn").addEventListener("click", () => {
-          fetchAndDisplayResults(race.id);
-          console.log(race.id);
-        });
+
+    // Hide the home section and display the race view section
+    homeSection.classList.replace("visible", "hidden");
+    raceViewSection.classList.replace("hidden", "visible");
+
+    // Populate the race view
+    raceViewMessage.textContent = `Races for the ${selectedSeason} Season:`;
+    raceList.innerHTML = "";
+
+    races.forEach((race) => {
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+        <div class="box">
+          <h2 class="title is-5">${race.name} (${race.date})</h2>
+          <p><strong>Round:</strong> ${race.round}</p>
+          <p><strong>Location:</strong> ${race.circuit.location}, ${race.circuit.country}</p>
+          <button class="button is-link view-results-btn" data-race-id="${race.id}">View Results</button>
+        </div>
+      `;
+      raceList.appendChild(listItem);
+
+      // Add event listener to each "View Results" button
+      listItem.querySelector(".view-results-btn").addEventListener("click", () => {
+        fetchAndDisplayResults(race.id);
+        console.log(race.id);
       });
-    } catch (error) {
-      console.error(error);
-      raceViewMessage.textContent = "Failed to load race data.";
-    }
-  });
-  
+    });
+  } catch (error) {
+    console.error(error);
+    raceViewMessage.textContent = "Failed to load race data.";
+  }
+});
 
   // Fetch and display results
   async function fetchAndDisplayResults(raceId) {

@@ -440,3 +440,16 @@ body {
 .add-to-favorites-btn:active {
   background-color: #2c6f9e;
 }
+
+#race-view {
+  display: none;
+}
+
+/* Make sections visible when required */
+.visible {
+  display: block !important;
+}
+
+.hidden {
+  display: none !important;
+}
