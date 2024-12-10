@@ -399,6 +399,7 @@ body {
   display: block;
 }
 
+/* General Box Styling */
 .box {
   background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Subtle gradient background */
   border-radius: 12px; /* Rounded corners for a modern look */
@@ -410,8 +411,8 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effects */
 }
 
-/* Hover effect for the box */
-.box:hover {
+/* Hover effect for non-modal boxes */
+.box:not(.modal .box):hover {
   transform: scale(1.02); /* Slight scaling for a hover effect */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
@@ -474,6 +475,12 @@ body {
 
 .box .button.is-link:hover {
   background-color: #3a78c4;
+}
+
+/* Disable Hover for Modal Boxes */
+.modal .box:hover {
+  transform: none; /* Disable scaling */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Keep original shadow */
 }
 
 /* Media Query for Responsiveness */
