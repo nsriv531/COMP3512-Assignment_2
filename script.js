@@ -38,20 +38,21 @@ const closeFavoritesModal = document.getElementById("close-favorites-modal");
   // Event listener to open the favorites modal
   function populateFavoritesList() {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    favoritesList.innerHTML = "";
-
+    favoritesList.innerHTML = ""; // Clear the current list
+  
     if (favorites.length === 0) {
-      favoritesList.innerHTML = "<li>No favorites added yet.</li>";
+      favoritesList.innerHTML = "<li class='has-text-centered'>No favorites added yet.</li>";
     } else {
       favorites.forEach((item, index) => {
         const li = document.createElement("li");
+        li.classList.add("list-item"); // Add Bulma styling class
         li.innerHTML = `
           <span>${item.type}: ${item.name}</span>
-          <button data-index="${index}" class="remove-favorite-button">Remove</button>
+          <button data-index="${index}" class="remove-favorite-button button is-small is-danger is-light">Remove</button>
         `;
         favoritesList.appendChild(li);
-
-        // Add event listener to remove button
+  
+        // Add event listener to the remove button
         li.querySelector(".remove-favorite-button").addEventListener("click", () => {
           removeFavorite(index);
         });
@@ -563,5 +564,17 @@ async function fetchCircuitDetails(circuitRef) {
         // Open the modal with error details
         openModal(driverModal);
     }
+}
+
+function clearAllFavorites() {
+  localStorage.removeItem("favorites"); // Remove all favorites from localStorage
+  populateFavoritesList(); // Refresh the favorites list
+  alert("All favorites have been cleared!"); // Notify the user
+}
+
+// Add event listener to Clear All Favorites button
+const clearFavoritesButton = document.getElementById("clear-favorites-btn");
+if (clearFavoritesButton) {
+  clearFavoritesButton.addEventListener("click", clearAllFavorites);
 }
 });

@@ -180,6 +180,7 @@ body {
 }
 
 /* Modal */
+/* Modal */
 .modal {
   display: none;
 }
@@ -189,7 +190,7 @@ body {
 }
 
 .modal-background {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9); /* Darker background for modals */
   position: fixed;
   top: 0;
   right: 0;
@@ -206,14 +207,136 @@ body {
 }
 
 .modal .box {
-  background: white;
-  border-radius: 8px;
+  background: #2c3e50; /* Dark background for the modal box */
+  border-radius: 12px;
   padding: 25px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.35);
+  color: #ecf0f1; /* Light text for readability */
 }
 
+/* Titles and subtitles for modals */
+.modal .title {
+  font-weight: 700;
+  color: #ecf0f1; /* Light text color for titles */
+}
+
+.modal .subtitle {
+  font-size: 1rem;
+  color: #bdc3c7; /* Subtle gray for subtitles */
+  margin-bottom: 20px;
+}
+
+/* Buttons inside modals */
+.modal .button {
+  border-radius: 8px;
+}
+
+.modal .button.is-link {
+  background-color: #3498db;
+  color: white;
+}
+
+.modal .button.is-link:hover {
+  background-color: #2980b9;
+}
+
+/* Favorites Modal Specific Styling */
+#favorites-modal .box {
+  background: #2c3e50;
+  color: #ecf0f1;
+}
+
+#favorites-modal .list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #34495e;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #34495e; /* Slightly lighter dark background */
+}
+
+#favorites-modal .list-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #3a5068; /* Subtle divider color */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#favorites-modal .list-item:last-child {
+  border-bottom: none;
+}
+
+#favorites-modal .remove-favorite-button {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#favorites-modal .remove-favorite-button:hover {
+  color: #e33454;
+}
+
+#favorites-modal #clear-favorites-btn {
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+#favorites-modal #clear-favorites-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Circuit Modal Image */
+#circuit-modal img {
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Slightly darker shadow */
+  max-width: 100%; /* Ensure responsiveness */
+  height: auto;
+}
+
+/* Table Styling Inside Modals */
+.modal table {
+  background: #34495e; /* Dark table background */
+  border-radius: 8px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.modal th,
+.modal td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #3a5068; /* Divider color */
+}
+
+.modal th {
+  background-color: #1abc9c; /* Accent color for table headers */
+  color: #ecf0f1; /* Light text */
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.modal td {
+  color: #ecf0f1;
+}
+
+.modal td a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.modal td a:hover {
+  text-decoration: underline;
+}
 /* Add media queries for responsive design */
 @media screen and (max-width: 768px) {
   .podium-container {
