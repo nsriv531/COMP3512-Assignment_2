@@ -8,6 +8,15 @@ body {
   color: #2c3e50;
 }
 
+/* Hero Body Styling */
+.hero .hero-body {
+  padding: 1.5rem; /* Reduce padding for a smaller appearance */
+  height: 200px; /* Adjust height as needed */
+  display: flex;
+  align-items: center; /* Center the content vertically */
+  justify-content: center; /* Center the content horizontally */
+}
+
 /* Hero Section */
 .hero.is-dark {
   background: linear-gradient(135deg, #283c86, #45a247);
@@ -269,3 +278,25 @@ body {
     transform: rotate(360deg);
   }
 }
+
+#racedetails {
+  max-height: 300px; /* Set a maximum height for the content */
+  overflow-y: auto; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* For Firefox: thin scrollbar */
+  scrollbar-color: #4a90e2 #f0f4f8; /* For Firefox: scrollbar color */
+}
+
+/* Optional: Styling for WebKit-based browsers (Chrome, Edge, Safari) */
+#racedetails::-webkit-scrollbar {
+  width: 8px; /* Set width of the scrollbar */
+}
+
+#racedetails::-webkit-scrollbar-thumb {
+  background-color: #4a90e2; /* Scrollbar thumb color */
+  border-radius: 4px; /* Rounded edges for the scrollbar thumb */
+}
+
+#racedetails::-webkit-scrollbar-track {
+  background: #f0f4f8; /* Scrollbar track color */
+}
+
