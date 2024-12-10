@@ -41,17 +41,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 25px;
+  gap: 15px;
   text-align: center;
-  padding: 20px 0;
-  position: relative;
-  flex-wrap: wrap;
+  padding: 10px 0;
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
   background: linear-gradient(135deg, #e0e0e0, #f7f7f7);
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Each Podium Place */
@@ -60,62 +58,61 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 150px;
-  padding: 15px;
-  border-radius: 10px;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  margin: 0 10px;
+  width: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 5px;
 }
 
-/* Podium Heights for Visual Hierarchy */
+/* Podium Heights */
 .gold {
   background: linear-gradient(135deg, #ffd700, #ffb400);
-  height: 250px; /* Tallest podium */
+  height: 180px;
 }
 
 .silver {
   background: linear-gradient(135deg, #c0c0c0, #d4d4d4);
-  height: 200px; /* Medium podium */
+  height: 150px;
 }
 
 .bronze {
   background: linear-gradient(135deg, #cd7f32, #d5a076);
-  height: 170px; /* Shortest podium */
+  height: 120px;
+}
+
+/* Podium Text */
+.podium-position {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.driver-name {
+  font-size: 1em;
+  margin-top: 5px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.constructor-name {
+  font-size: 0.9em;
+  margin-top: 3px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Hover Effect for Podium Places */
 .podium-place:hover {
   transform: translateY(-12px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-}
-
-/* Podium Text */
-.podium-position {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-.driver-name {
-  font-size: 1.2em;
-  margin-top: 10px;
-  color: #fff;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
-}
-
-.constructor-name {
-  font-size: 1em;
-  margin-top: 5px;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 2px 6px;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Podium Base */
@@ -204,9 +201,8 @@ body {
   display: flex;
 }
 
-
 .modal-background {
-  background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+  background-color: rgba(0, 0, 0, 0.9);
   position: fixed;
   top: 0;
   right: 0;
@@ -223,7 +219,7 @@ body {
 }
 
 .modal .box {
-  background: #1e1e2f; /* Darkened modal background */
+  background: #1e1e2f;
   border-radius: 12px;
   padding: 25px;
   max-height: 80vh;
@@ -232,220 +228,23 @@ body {
   color: #e0e0e0;
 }
 
-/* Modal Titles and Subtitles */
-.modal .title {
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.modal .subtitle {
-  font-size: 1rem;
-  color: #b0b0b0;
-  margin-bottom: 20px;
-}
-
-/* Modal Buttons */
-.modal .button {
-  border-radius: 8px;
-}
-
-.modal .button.is-link {
-  background-color: #3498db;
-  color: white;
-}
-
-.modal .button.is-link:hover {
-  background-color: #2980b9;
-}
-
-/* Close Button Styling */
-.modal .delete {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #e74c3c;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 1.8rem;
-  font-weight: bold;
-  border: 3px solid #c0392b;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.modal .delete:before {
-  content: '×';
-  font-family: Arial, sans-serif;
-  line-height: 1;
-}
-
-.modal .delete:hover {
-  background: #c0392b;
-  transform: scale(1.2);
-}
-
-/* Responsive Design for Modals */
+/* Responsive Design for Podiums */
 @media screen and (max-width: 768px) {
-  .modal .box {
-    padding: 15px;
-    max-height: 400px;
-    max-width: 90%;
-  }
-
-  .modal .title {
-    font-size: 1.3rem;
-  }
-
   .podium-container {
     flex-direction: column;
-    gap: 15px;
-    padding: 10px;
+    gap: 10px;
   }
 
   .podium-place {
-    width: 90%;
+    width: 80%;
     height: auto;
   }
-}
-
-/* Race List Styling */
-.race-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.race-item {
-  margin-bottom: 1rem;
-}
-
-.card {
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card-header {
-  background-color: #4a90e2;
-  color: white;
-}
-
-.card-header-title {
-  color: white;
-  font-weight: bold;
-}
-
-.card-footer-item.button {
-  margin: 0.5rem;
-  border-radius: 5px;
-}
-
-.card-footer-item.button:hover {
-  background-color: #357abf;
-  color: white;
-}
-
-.card-content p {
-  margin-bottom: 0.5rem;
-}
-
-/* Modal Table Styling */
-#modal-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-#modal-table thead th {
-  background-color: #4a90e2;
-  color: #ffffff;
-  text-align: left;
-  padding: 12px 16px;
-  font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-#modal-table thead th:hover {
-  background-color: #357abf;
-  cursor: pointer;
-}
-
-#modal-table tbody tr {
-  transition: background-color 0.3s ease;
-}
-
-#modal-table tbody tr:nth-child(even) {
-  background-color: #f8f9fa;
-}
-
-#modal-table tbody tr:nth-child(odd) {
-  background-color: #ffffff;
-}
-
-#modal-table tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-#modal-table tbody td {
-  padding: 10px 16px;
-  font-size: 0.9rem;
-  color: #2c3e50;
-  border-bottom: 1px solid #e0e0e0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-#modal-table tbody td:last-child {
-  text-align: center;
-}
-
-#modal-table tfoot td {
-  background-color: #f5f5f5;
-  font-weight: bold;
-  padding: 12px 16px;
-  text-align: right;
-  color: #2c3e50;
-}
-
-/* Button Styling Inside Modal Table */
-.add-to-favorites-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4a90e2;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.add-to-favorites-btn:hover {
-  background-color: #357abf;
-  transform: scale(1.05);
-}
-
-.add-to-favorites-btn:active {
-  background-color: #2c6f9e;
 }
 
 #race-view {
   display: none;
 }
 
-/* Make sections visible when required */
 .visible {
   display: block !important;
 }
