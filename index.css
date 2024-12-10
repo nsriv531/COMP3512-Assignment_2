@@ -37,19 +37,23 @@ body {
 }
 
 /* Podium Container */
-.podium-container {
+.podium-place {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 15px;
-  text-align: center;
-  padding: 10px 0;
-  max-width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #e0e0e0, #f7f7f7);
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100px;
+  padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 5px;
+  text-align: center; /* Center-align text */
+  word-wrap: break-word; /* Break long words */
+  overflow: hidden; /* Prevent text overflow */
+  height: auto; /* Allow dynamic height */
+  max-height: 180px; /* Limit maximum height */
+  box-sizing: border-box;
 }
 
 /* Each Podium Place */
@@ -79,7 +83,7 @@ body {
 
 .bronze {
   background: linear-gradient(135deg, #cd7f32, #d5a076);
-  height: 120px;
+  height: 140px; /* Increase height slightly for better alignment */
 }
 
 /* Podium Text */

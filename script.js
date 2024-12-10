@@ -18,6 +18,7 @@ const constructorRaceResults = document.getElementById("constructor-race-results
 const driverModal = document.getElementById("driver-modal");
 const closeDriverModalButton = document.getElementById("close-driver-modal");
 const driverName = document.getElementById("driver-name");
+const driverage = document.getElementById("driver-age");
 const driverNationality = document.getElementById("driver-nationality");
 const driverDob = document.getElementById("driver-dob");
 const driverURL = document.getElementById("driver-url");
@@ -522,8 +523,16 @@ viewRacesBtn.addEventListener("click", async () => {
             throw new Error("Driver not found");
         }
 
+        // Calculate age based on DOB
+        let age = "Unknown";
+        if (driver.dob) {
+            const birthYear = parseInt(driver.dob.split("-")[0], 10);
+            age = new Date().getFullYear() - birthYear;
+        }
+
         // Set driver details in modal
         driverName.textContent = `${driver.forename} ${driver.surname}`;
+        driverage.textContent = age;
         driverNationality.textContent = driver.nationality || "Unknown";
         driverDob.textContent = driver.dob || "Unknown"; // 'dob' property
         driverURL.innerHTML = driver.url 
@@ -595,6 +604,7 @@ viewRacesBtn.addEventListener("click", async () => {
         openModal(driverModal);
     }
 }
+
 
 function clearAllFavorites() {
   localStorage.removeItem("favorites"); // Remove all favorites from localStorage
