@@ -335,41 +335,39 @@ async function fetchCircuitDetails(circuitRef) {
   
   // Display qualifying and race results
   function displayResults(qualifyingData, raceData) {
+    // Populate Qualifying Results Table
     qualifyingResults.innerHTML = qualifyingData
       .map((q) => {
         const constructorRef = q.constructor.ref || "N/A";
         return `
           <tr>
-            <td>${q.position}</td>
-            <td><a href="#" class="driver-link" data-driver-id="${q.driver.ref}">${q.driver.forename} ${q.driver.surname}</a></td>
-            <td>
-              <a href="#" class="constructor-link" data-constructor-ref="${constructorRef}">${q.constructor.name}</a>
-            </td>
-            <td>${q.q1 || "--"}</td>
-            <td>${q.q2 || "--"}</td>
-            <td>${q.q3 || "--"}</td>
+            <td data-field="position">${q.position}</td>
+            <td data-field="name">${q.driver.forename} ${q.driver.surname}</td>
+            <td data-field="constructor">${q.constructor.name}</td>
+            <td data-field="q1">${q.q1 || "--"}</td>
+            <td data-field="q2">${q.q2 || "--"}</td>
+            <td data-field="q3">${q.q3 || "--"}</td>
           </tr>`;
       })
       .join("");
   
+    // Populate Race Results Table
     raceResults.innerHTML = raceData
       .map((r) => {
         const constructorRef = r.constructor.ref || "N/A";
         return `
           <tr>
-            <td>${r.position}</td>
-            <td><a href="#" class="driver-link" data-driver-id="${r.driver.ref}">${r.driver.forename} ${r.driver.surname}</a></td>
-            <td>
-              <a href="#" class="constructor-link" data-constructor-ref="${constructorRef}">${r.constructor.name}</a>
-            </td>
-            <td>${r.laps}</td>
-            <td>${r.points}</td>
+            <td data-field="position">${r.position}</td>
+            <td data-field="name">${r.driver.forename} ${r.driver.surname}</td>
+            <td data-field="constructor">${r.constructor.name}</td>
+            <td data-field="laps">${r.laps}</td>
+            <td data-field="points">${r.points}</td>
           </tr>`;
       })
       .join("");
   
-    // Update the podium
-    updatePodium(raceData);
+    // Ensure headers are clickable and sorting works
+    enableTableSorting();
   
     // Add event listeners for constructor links
     document.querySelectorAll(".constructor-link").forEach((link) => {
@@ -576,4 +574,44 @@ const clearFavoritesButton = document.getElementById("clear-favorites-btn");
 if (clearFavoritesButton) {
   clearFavoritesButton.addEventListener("click", clearAllFavorites);
 }
+
+function sortTable(tableBody, sortBy, ascending) {
+  const rows = Array.from(tableBody.rows);
+  rows.sort((a, b) => {
+    const cellA = a.querySelector(`[data-field="${sortBy}"]`).textContent.trim();
+    const cellB = b.querySelector(`[data-field="${sortBy}"]`).textContent.trim();
+
+    const valueA = isNaN(cellA) ? cellA.toLowerCase() : parseFloat(cellA);
+    const valueB = isNaN(cellB) ? cellB.toLowerCase() : parseFloat(cellB);
+
+    if (valueA < valueB) return ascending ? -1 : 1;
+    if (valueA > valueB) return ascending ? 1 : -1;
+    return 0;
+  });
+
+  rows.forEach((row) => tableBody.appendChild(row));
+}
+
+// Attach click events to headers for sorting
+function enableTableSorting() {
+  document.querySelectorAll("th[data-sort]").forEach((header) => {
+    let ascending = true; // Default sorting direction
+
+    header.addEventListener("click", () => {
+      const tableBody = header.closest("table").querySelector("tbody");
+      const sortBy = header.getAttribute("data-sort");
+
+      sortTable(tableBody, sortBy, ascending);
+      ascending = !ascending; // Toggle sorting direction
+
+      // Optional: Update visual indication of sorting
+      document.querySelectorAll("th[data-sort]").forEach((h) => {
+        h.classList.remove("ascending", "descending");
+      });
+      header.classList.add(ascending ? "ascending" : "descending");
+    });
+  });
+}
+enableTableSorting();
+
 });
