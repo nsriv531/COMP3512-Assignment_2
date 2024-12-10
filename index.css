@@ -233,3 +233,8 @@ body {
   max-width: 100%; /* Ensure responsiveness */
   height: auto;
 }
+
+.add-to-favorites-btn {
+  margin-top: 15px;
+  display: block;
+}

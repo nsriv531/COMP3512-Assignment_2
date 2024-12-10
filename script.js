@@ -85,26 +85,84 @@ const closeFavoritesModal = document.getElementById("close-favorites-modal");
 // Close the circuit modal
 closeCircuitModalButton.addEventListener("click", () => closeModal(circuitModal));
 
+// Event listener for "Add to Favorites" buttons
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("add-to-favorites-btn")) {
+    const type = event.target.dataset.type;
+    let name;
+
+    if (type === "constructor") {
+      name = document.getElementById("constructor-name").textContent;
+    } else if (type === "driver") {
+      name = document.getElementById("driver-name").textContent;
+    }
+
+    if (name) {
+      addToFavorites({ type, name });
+      alert(`${type} "${name}" added to favorites!`);
+    }
+  }
+});
+
+// Function to add an item to favorites
+function addToFavorites(item) {
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  favorites.push(item);
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
 // Fetch and display circuit details
 async function fetchCircuitDetails(circuitRef) {
   try {
-    const response = await fetch(
-      `https://www.randyconnolly.com/funwebdev/3rd/api/f1/circuits.php?id=${circuitRef}`
-    );
-    const circuit = await response.json();
-    console.log(circuit);
-    // Assuming circuit data is an array, take the first element
-    const circuitData = Array.isArray(circuit) ? circuit[0] : circuit;
+      const response = await fetch(
+          `https://www.randyconnolly.com/funwebdev/3rd/api/f1/circuits.php?id=${circuitRef}`
+      );
+      const circuit = await response.json();
 
-    circuitName.textContent = circuitData.name || "Unknown";
-    circuitLocation.textContent = circuitData.location || "Unknown";
-    circuitCountry.textContent = circuitData.country || "Unknown";
-    circuitURL.innerHTML = circuitData.url
-      ? `<a href="${circuitData.url}" target="_blank">${circuitData.url}</a>`
-      : "No website available";
-    openModal(circuitModal);
+      console.log(circuit);
+
+      // Assuming circuit data is an array, take the first element
+      const circuitData = Array.isArray(circuit) ? circuit[0] : circuit;
+
+      // Set circuit details in the modal
+      circuitName.textContent = circuitData.name || "Unknown";
+      circuitLocation.textContent = circuitData.location || "Unknown";
+      circuitCountry.textContent = circuitData.country || "Unknown";
+      circuitURL.innerHTML = circuitData.url
+          ? `<a href="${circuitData.url}" target="_blank">${circuitData.url}</a>`
+          : "No website available";
+
+      // Add "Add to Favorites" button
+      const addToFavoritesButton = document.createElement("button");
+      addToFavoritesButton.textContent = "Add to Favorites";
+      addToFavoritesButton.classList.add("button", "is-link", "add-to-favorites-btn");
+      addToFavoritesButton.dataset.type = "circuit";
+      addToFavoritesButton.dataset.name = circuitData.name || "Unknown";
+      addToFavoritesButton.addEventListener("click", () => {
+          addToFavorites({
+              type: "Circuit",
+              name: circuitData.name || "Unknown"
+          });
+          alert(`Circuit "${circuitData.name || "Unknown"}" added to favorites!`);
+      });
+
+      // Add the button to the modal
+      const circuitModalContent = circuitModal.querySelector(".box");
+      if (!circuitModalContent.querySelector(".add-to-favorites-btn")) {
+          circuitModalContent.appendChild(addToFavoritesButton);
+      }
+
+      openModal(circuitModal);
   } catch (error) {
-    console.error("Error fetching circuit details:", error);
+      console.error("Error fetching circuit details:", error);
+
+      // Set error message in the modal
+      circuitName.textContent = "Error loading circuit details";
+      circuitLocation.textContent = "Unknown";
+      circuitCountry.textContent = "Unknown";
+      circuitURL.innerHTML = "No website available";
+
+      openModal(circuitModal);
   }
 }
 
@@ -437,7 +495,29 @@ async function fetchCircuitDetails(circuitRef) {
         driverName.textContent = `${driver.forename} ${driver.surname}`;
         driverNationality.textContent = driver.nationality || "Unknown";
         driverDob.textContent = driver.dob || "Unknown"; // 'dob' property
-        driverURL.innerHTML = `<a href="${driver.url}" target="_blank">Biography</a>`;
+        driverURL.innerHTML = driver.url 
+            ? `<a href="${driver.url}" target="_blank">Biography</a>` 
+            : "No biography available";
+
+        // Add "Add to Favorites" button
+        const addToFavoritesButton = document.createElement("button");
+        addToFavoritesButton.textContent = "Add to Favorites";
+        addToFavoritesButton.classList.add("button", "is-link", "add-to-favorites-btn");
+        addToFavoritesButton.dataset.type = "driver";
+        addToFavoritesButton.dataset.name = `${driver.forename} ${driver.surname}`;
+        addToFavoritesButton.addEventListener("click", () => {
+            addToFavorites({
+                type: "Driver",
+                name: `${driver.forename} ${driver.surname}`
+            });
+            alert(`Driver "${driver.forename} ${driver.surname}" added to favorites!`);
+        });
+
+        // Add the button to the modal
+        const driverModalContent = driverModal.querySelector(".box");
+        if (!driverModalContent.querySelector(".add-to-favorites-btn")) {
+            driverModalContent.appendChild(addToFavoritesButton);
+        }
 
         // Fetch race results for the driver
         const selectedSeason = document.getElementById("season-select").value; // Get the selected season
@@ -467,6 +547,7 @@ async function fetchCircuitDetails(circuitRef) {
             driverRaceResults.innerHTML = `<tr><td colspan="4">No race results available</td></tr>`;
         }
 
+        // Open the modal
         openModal(driverModal);
     } catch (error) {
         console.error("Error fetching driver data:", error);
@@ -479,6 +560,7 @@ async function fetchCircuitDetails(circuitRef) {
         const driverRaceResults = document.getElementById("driver-race-results");
         driverRaceResults.innerHTML = `<tr><td colspan="4">Unable to load race results</td></tr>`;
 
+        // Open the modal with error details
         openModal(driverModal);
     }
 }
