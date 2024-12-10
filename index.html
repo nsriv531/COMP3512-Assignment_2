@@ -82,13 +82,46 @@
       <div class="columns">
         <!-- Race List Section -->
         <div class="column is-half">
-          <div id="race-details" class="box is-small" style="max-width: 600px; margin-bottom: 1rem; padding: 1rem;">
+          <div id="race-details" class="box is-small has-background-light" style="max-width: 600px; margin-bottom: 1rem; padding: 1rem;">
             <!-- Race-specific details will be dynamically inserted here -->
           </div>
-          <div class="box">
+          <div class="box has-background-white">
             <h1 class="title">Race Details</h1>
             <p id="race-view-message" class="content has-text-grey">No season selected</p>
-            <ul id="race-list"></ul>
+            <ul id="race-list" class="race-list">
+              <li class="race-item">
+                <div class="card">
+                  <header class="card-header">
+                    <p class="card-header-title">Bahrain Grand Prix (2022-03-20)</p>
+                  </header>
+                  <div class="card-content">
+                    <div class="content">
+                      <p><strong>Round:</strong> 1</p>
+                      <p><strong>Location:</strong> Sakhir, Bahrain</p>
+                    </div>
+                  </div>
+                  <footer class="card-footer">
+                    <a href="#" class="card-footer-item button is-primary is-light">View Results</a>
+                  </footer>
+                </div>
+              </li>
+              <li class="race-item">
+                <div class="card">
+                  <header class="card-header">
+                    <p class="card-header-title">Saudi Arabian Grand Prix (2022-03-27)</p>
+                  </header>
+                  <div class="card-content">
+                    <div class="content">
+                      <p><strong>Round:</strong> 2</p>
+                      <p><strong>Location:</strong> Jeddah, Saudi Arabia</p>
+                    </div>
+                  </div>
+                  <footer class="card-footer">
+                    <a href="#" class="card-footer-item button is-primary is-light">View Results</a>
+                  </footer>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
   
@@ -179,15 +212,15 @@
       <h3 id="constructor-name" class="title is-4"></h3>
       <p><strong>Nationality:</strong> <span id="constructor-nationality"></span></p>
       <p><strong>Website:</strong> <span id="constructor-url"></span></p>
+      <button class="button is-link add-to-favorites-btn" data-type="constructor">Add to Favorites</button>
       <h4 class="title is-5 mt-4">Race Results:</h4>
-      <table class="table is-fullwidth">
+      <table class="table is-fullwidth" id="modal-table">
         <thead>
           <tr>
             <th>Round</th>
             <th>Race</th>
             <th>Points</th>
             <th>Position</th>
-            <th><button class="button is-link add-to-favorites-btn" data-type="constructor">Add to Favorites</button></th>
           </tr>
         </thead>
         <tbody id="constructor-race-results"></tbody>
@@ -215,7 +248,7 @@
       <p><strong>Biography:</strong> <span id="driver-url"></span></p>
       <button class="button is-link add-to-favorites-btn" data-type="driver">Add to Favorites</button>
       <h4 class="title is-5 mt-4">Race Results:</h4>
-      <table class="table is-fullwidth">
+      <table class="table is-fullwidth" id="modal-table">
         <thead>
           <tr>
             <th>Round</th>

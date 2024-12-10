@@ -49,6 +49,9 @@ body {
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #e0e0e0, #f7f7f7);
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Each Podium Place */
@@ -57,12 +60,29 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 140px;
+  width: 150px;
   padding: 15px;
   border-radius: 10px;
+  position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
   margin: 0 10px;
+}
+
+/* Podium Heights for Visual Hierarchy */
+.gold {
+  background: linear-gradient(135deg, #ffd700, #ffb400);
+  height: 250px; /* Tallest podium */
+}
+
+.silver {
+  background: linear-gradient(135deg, #c0c0c0, #d4d4d4);
+  height: 200px; /* Medium podium */
+}
+
+.bronze {
+  background: linear-gradient(135deg, #cd7f32, #d5a076);
+  height: 170px; /* Shortest podium */
 }
 
 /* Hover Effect for Podium Places */
@@ -71,36 +91,41 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
-/* Specific Styling for Gold, Silver, Bronze */
-.gold {
-  background: linear-gradient(135deg, #ffd700, #ffcc33);
-}
-
-.silver {
-  background: linear-gradient(135deg, #c0c0c0, #d4d4d4);
-}
-
-.bronze {
-  background: linear-gradient(135deg, #cd7f32, #d5a076);
-}
-
 /* Podium Text */
 .podium-position {
-  font-size: 1.4em;
+  font-size: 1.5em;
   font-weight: bold;
   color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .driver-name {
   font-size: 1.2em;
   margin-top: 10px;
   color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .constructor-name {
   font-size: 1em;
   margin-top: 5px;
-  color: rgba(255, 255, 255, 0.8);
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2px 6px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Podium Base */
+.podium-base {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: #4a90e2;
+  border-radius: 0 0 12px 12px;
 }
 
 /* Results Container Styling */
@@ -116,14 +141,14 @@ body {
 }
 
 #results-container .column {
-  flex: 1 1 calc(50% - 10px); /* Each table takes up half the width minus the gap */
-  max-width: 48%; /* Ensures the tables fit side by side */
+  flex: 1 1 calc(50% - 10px);
+  max-width: 48%;
   background: #ffffff;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  overflow-x: auto; /* Enables horizontal scrolling if needed */
+  overflow-x: auto;
 }
 
 /* Table Styling */
@@ -133,17 +158,17 @@ body {
   border-radius: 8px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  table-layout: auto; /* Allow flexible column widths */
-  font-size: 0.8rem; /* Smaller font size to fit content */
+  table-layout: auto;
+  font-size: 0.8rem;
 }
 
 #results-container th,
 #results-container td {
-  padding: 8px; /* Reduced padding */
+  padding: 8px;
   text-align: center;
   font-size: 0.8rem;
   border-bottom: 1px solid #f0f0f0;
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
 }
 
 #results-container th {
@@ -151,10 +176,18 @@ body {
   color: white;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#results-container th:hover {
+  background: #357abf;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #results-container td {
-  text-overflow: ellipsis; /* Ensures text fits and shows ellipsis if too long */
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 
@@ -162,25 +195,7 @@ body {
   margin-bottom: 15px;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  #results-container .columns {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  #results-container .column {
-    flex: 1 1 100%; /* Tables stack vertically on smaller screens */
-    max-width: 100%;
-  }
-
-  #results-container table {
-    font-size: 0.7rem; /* Further reduce font size on smaller screens */
-  }
-}
-
-/* Modal */
-/* Modal */
+/* Modal Styling */
 .modal {
   display: none;
 }
@@ -189,8 +204,9 @@ body {
   display: flex;
 }
 
+
 .modal-background {
-  background-color: rgba(0, 0, 0, 0.9); /* Darker background for modals */
+  background-color: rgba(0, 0, 0, 0.9); /* Dark background */
   position: fixed;
   top: 0;
   right: 0;
@@ -207,28 +223,28 @@ body {
 }
 
 .modal .box {
-  background: #2c3e50; /* Dark background for the modal box */
+  background: #1e1e2f; /* Darkened modal background */
   border-radius: 12px;
   padding: 25px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.35);
-  color: #ecf0f1; /* Light text for readability */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+  color: #e0e0e0;
 }
 
-/* Titles and subtitles for modals */
+/* Modal Titles and Subtitles */
 .modal .title {
   font-weight: 700;
-  color: #ecf0f1; /* Light text color for titles */
+  color: #ffffff;
 }
 
 .modal .subtitle {
   font-size: 1rem;
-  color: #bdc3c7; /* Subtle gray for subtitles */
+  color: #b0b0b0;
   margin-bottom: 20px;
 }
 
-/* Buttons inside modals */
+/* Modal Buttons */
 .modal .button {
   border-radius: 8px;
 }
@@ -242,140 +258,49 @@ body {
   background-color: #2980b9;
 }
 
-/* Modal Close Button Styling */
-/* Modal Close Button Styling */
+/* Close Button Styling */
 .modal .delete {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #e74c3c; /* Bright red for visibility */
+  background: #e74c3c;
   border-radius: 50%;
-  width: 50px; /* Increased size */
-  height: 50px; /* Increased size */
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff; /* White icon for contrast */
-  font-size: 1.8rem; /* Larger close icon */
+  color: #fff;
+  font-size: 1.8rem;
   font-weight: bold;
-  border: 3px solid #c0392b; /* Subtle border for emphasis */
+  border: 3px solid #c0392b;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .modal .delete:before {
-  content: '×'; /* Ensure the close icon is only an '×' */
+  content: '×';
   font-family: Arial, sans-serif;
   line-height: 1;
 }
 
-.modal .delete:focus {
-  outline: none; /* Remove default outline */
-  box-shadow: 0 0 10px rgba(231, 76, 60, 0.8); /* Add focus ring for accessibility */
-}
-
 .modal .delete:hover {
-  background: #c0392b; /* Darker red on hover */
-  transform: scale(1.2); /* Slightly larger on hover */
+  background: #c0392b;
+  transform: scale(1.2);
 }
 
-/* Favorites Modal Specific Styling */
-#favorites-modal .box {
-  background: #2c3e50;
-  color: #ecf0f1;
-}
-
-#favorites-modal .list {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #34495e;
-  border-radius: 8px;
-  padding: 15px;
-  background-color: #34495e; /* Slightly lighter dark background */
-}
-
-#favorites-modal .list-item {
-  padding: 10px 15px;
-  border-bottom: 1px solid #3a5068; /* Subtle divider color */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#favorites-modal .list-item:last-child {
-  border-bottom: none;
-}
-
-#favorites-modal .remove-favorite-button {
-  background: none;
-  border: none;
-  color: #ff6b6b;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-#favorites-modal .remove-favorite-button:hover {
-  color: #e33454;
-}
-
-#favorites-modal #clear-favorites-btn {
-  background-color: #e74c3c;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-}
-
-#favorites-modal #clear-favorites-btn:hover {
-  background-color: #c0392b;
-}
-
-/* Circuit Modal Image */
-#circuit-modal img {
-  border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Slightly darker shadow */
-  max-width: 100%; /* Ensure responsiveness */
-  height: auto;
-}
-
-/* Table Styling Inside Modals */
-.modal table {
-  background: #34495e; /* Dark table background */
-  border-radius: 8px;
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.modal th,
-.modal td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #3a5068; /* Divider color */
-}
-
-.modal th {
-  background-color: #1abc9c; /* Accent color for table headers */
-  color: #ecf0f1; /* Light text */
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.modal td {
-  color: #ecf0f1;
-}
-
-.modal td a {
-  color: #3498db;
-  text-decoration: none;
-}
-
-.modal td a:hover {
-  text-decoration: underline;
-}
-/* Add media queries for responsive design */
+/* Responsive Design for Modals */
 @media screen and (max-width: 768px) {
+  .modal .box {
+    padding: 15px;
+    max-height: 400px;
+    max-width: 90%;
+  }
+
+  .modal .title {
+    font-size: 1.3rem;
+  }
+
   .podium-container {
     flex-direction: column;
     gap: 15px;
@@ -384,116 +309,134 @@ body {
 
   .podium-place {
     width: 90%;
+    height: auto;
   }
 }
 
-#circuit-modal img {
+/* Race List Styling */
+.race-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.race-item {
+  margin-bottom: 1rem;
+}
+
+.card {
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 100%; /* Ensure responsiveness */
-  height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.add-to-favorites-btn {
-  margin-top: 15px;
-  display: block;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* General Box Styling */
-.box {
-  background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Subtle gradient background */
-  border-radius: 12px; /* Rounded corners for a modern look */
-  padding: 20px; /* Reduce padding for a sleeker design */
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Elevated shadow for depth */
-  overflow-y: auto; /* Enable vertical scrolling */
-  max-height: 500px; /* Limit the height for scrollable content */
-  max-width: 600px; /* Set a maximum width to make the box skinnier */
-  margin: 0 auto; /* Center the box horizontally */
-  border: 1px solid #e0e0e0; /* Soft border for structure */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effects */
-}
-
-/* Hover effect for non-modal boxes */
-.box:not(.modal .box):hover {
-  transform: scale(1.02); /* Slight scaling for a hover effect */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-}
-
-/* Adjust Scrollbar Style */
-.box::-webkit-scrollbar {
-  width: 8px; /* Narrow scrollbar width */
-}
-
-.box::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Light track background */
-}
-
-.box::-webkit-scrollbar-thumb {
-  background: #888; /* Darker thumb for visibility */
-  border-radius: 4px; /* Rounded scrollbar for sleekness */
-}
-
-.box::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker thumb on hover */
-}
-
-/* Box Title Styling */
-.box .title {
-  font-size: 1.5rem; /* Larger title font size */
-  font-weight: bold;
-  color: #4a90e2; /* Accent color */
-  margin-bottom: 10px;
-  text-transform: capitalize;
-}
-
-/* Box Content Styling */
-.box p,
-.box ul {
-  line-height: 1.6;
-  color: #606060; /* Subtle text color for readability */
-  font-size: 1rem;
-}
-
-/* Links within the box */
-.box a {
-  color: #3498db; /* Highlighted blue for links */
-  text-decoration: none;
-}
-
-.box a:hover {
-  text-decoration: underline;
-}
-
-/* Buttons inside the box */
-.box .button {
-  border-radius: 8px;
-  margin-top: 15px;
-}
-
-.box .button.is-link {
+.card-header {
   background-color: #4a90e2;
-  color: #fff;
+  color: white;
 }
 
-.box .button.is-link:hover {
-  background-color: #3a78c4;
+.card-header-title {
+  color: white;
+  font-weight: bold;
 }
 
-/* Disable Hover for Modal Boxes */
-.modal .box:hover {
-  transform: none; /* Disable scaling */
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Keep original shadow */
+.card-footer-item.button {
+  margin: 0.5rem;
+  border-radius: 5px;
 }
 
-/* Media Query for Responsiveness */
-@media screen and (max-width: 768px) {
-  .box {
-    padding: 15px; /* Further reduce padding for smaller screens */
-    max-height: 400px; /* Adjust max height */
-    max-width: 90%; /* Ensure it fits smaller screens */
-  }
+.card-footer-item.button:hover {
+  background-color: #357abf;
+  color: white;
+}
 
-  .box .title {
-    font-size: 1.3rem; /* Slightly smaller title font */
-  }
+.card-content p {
+  margin-bottom: 0.5rem;
+}
+
+/* Modal Table Styling */
+#modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#modal-table thead th {
+  background-color: #4a90e2;
+  color: #ffffff;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#modal-table thead th:hover {
+  background-color: #357abf;
+  cursor: pointer;
+}
+
+#modal-table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+#modal-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+#modal-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+#modal-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+#modal-table tbody td {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  border-bottom: 1px solid #e0e0e0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#modal-table tbody td:last-child {
+  text-align: center;
+}
+
+#modal-table tfoot td {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  padding: 12px 16px;
+  text-align: right;
+  color: #2c3e50;
+}
+
+/* Button Styling Inside Modal Table */
+.add-to-favorites-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4a90e2;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-to-favorites-btn:hover {
+  background-color: #357abf;
+  transform: scale(1.05);
+}
+
+.add-to-favorites-btn:active {
+  background-color: #2c6f9e;
 }
