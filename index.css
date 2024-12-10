@@ -37,53 +37,45 @@ body {
 }
 
 /* Podium Container */
+.podium-container {
+  display: flex; /* Use flexbox to arrange items in a row */
+  justify-content: center; /* Center the podiums horizontally */
+  align-items: flex-end; /* Align items to the bottom for staggered heights */
+  gap: 15px; /* Add spacing between podiums */
+  margin-top: 20px; /* Add some spacing above the podiums */
+}
+
+/* Podium Place */
 .podium-place {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 100px;
+  width: 120px; /* Adjusted width for better spacing */
   padding: 10px;
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 0 5px;
-  text-align: center; /* Center-align text */
-  word-wrap: break-word; /* Break long words */
-  overflow: hidden; /* Prevent text overflow */
-  height: auto; /* Allow dynamic height */
-  max-height: 180px; /* Limit maximum height */
+  text-align: center;
+  word-wrap: break-word;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
-/* Each Podium Place */
-.podium-place {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100px;
-  padding: 10px;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 0 5px;
-}
-
-/* Podium Heights */
+/* Gold, Silver, and Bronze Heights */
 .gold {
   background: linear-gradient(135deg, #ffd700, #ffb400);
-  height: 180px;
+  height: 200px;
 }
 
 .silver {
   background: linear-gradient(135deg, #c0c0c0, #d4d4d4);
-  height: 150px;
+  height: 180px;
 }
 
 .bronze {
   background: linear-gradient(135deg, #cd7f32, #d5a076);
-  height: 140px; /* Increase height slightly for better alignment */
+  height: 160px;
 }
 
 /* Podium Text */
@@ -255,4 +247,25 @@ body {
 
 .hidden {
   display: none !important;
+}
+
+/* Loading Spinner */
+#loading-spinner {
+  display: none;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #4a90e2;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

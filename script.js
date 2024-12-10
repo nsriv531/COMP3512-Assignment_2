@@ -210,6 +210,7 @@ raceViewSection.classList.add("hidden");
 // Handle "View Races" button click
 viewRacesBtn.addEventListener("click", async () => {
   const selectedSeason = seasonSelect.value;
+  const loadingSpinner = document.getElementById("loading-spinner");
 
   if (!selectedSeason) {
     raceViewMessage.textContent = "Please select a season.";
@@ -218,6 +219,7 @@ viewRacesBtn.addEventListener("click", async () => {
   }
 
   try {
+    loadingSpinner.style.display = "block"; // Show the spinner
     let races;
 
     // Check local storage for existing data
@@ -240,6 +242,7 @@ viewRacesBtn.addEventListener("click", async () => {
     if (races.length === 0) {
       raceViewMessage.textContent = `No races found for the ${selectedSeason} season.`;
       raceList.innerHTML = "";
+      loadingSpinner.style.display = "none"; // Hide the spinner
       return;
     }
 
@@ -269,11 +272,15 @@ viewRacesBtn.addEventListener("click", async () => {
         console.log(race.id);
       });
     });
+
+    loadingSpinner.style.display = "none"; // Hide the spinner
   } catch (error) {
     console.error(error);
     raceViewMessage.textContent = "Failed to load race data.";
+    loadingSpinner.style.display = "none"; // Hide the spinner
   }
 });
+
 
   // Fetch and display results
   async function fetchAndDisplayResults(raceId) {
@@ -670,6 +677,18 @@ function enableTableSorting() {
     });
   });
 }
+
+const clearStorageButton = document.getElementById("clear-storage-btn");
+
+    // Event listener to clear all local storage
+    clearStorageButton.addEventListener("click", () => {
+        if (confirm("Are you sure you want to clear all stored data? This action cannot be undone.")) {
+            localStorage.clear(); // Clear all local storage
+            alert("All local storage data has been cleared!");
+            location.reload(); // Optionally reload the page to refresh the UI
+        }
+    });
+
 enableTableSorting();
 
 });
