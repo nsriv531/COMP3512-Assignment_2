@@ -398,3 +398,92 @@ body {
   margin-top: 15px;
   display: block;
 }
+
+.box {
+  background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Subtle gradient background */
+  border-radius: 12px; /* Rounded corners for a modern look */
+  padding: 25px; /* Spacious padding for better readability */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Elevated shadow for depth */
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 500px; /* Limit the height for scrollable content */
+  border: 1px solid #e0e0e0; /* Soft border for structure */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effects */
+}
+
+/* Hover effect for the box */
+.box:hover {
+  transform: scale(1.02); /* Slight scaling for a hover effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Adjust Scrollbar Style */
+.box::-webkit-scrollbar {
+  width: 8px; /* Narrow scrollbar width */
+}
+
+.box::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light track background */
+}
+
+.box::-webkit-scrollbar-thumb {
+  background: #888; /* Darker thumb for visibility */
+  border-radius: 4px; /* Rounded scrollbar for sleekness */
+}
+
+.box::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker thumb on hover */
+}
+
+/* Box Title Styling */
+.box .title {
+  font-size: 1.5rem; /* Larger title font size */
+  font-weight: bold;
+  color: #4a90e2; /* Accent color */
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+/* Box Content Styling */
+.box p,
+.box ul {
+  line-height: 1.6;
+  color: #606060; /* Subtle text color for readability */
+  font-size: 1rem;
+}
+
+/* Links within the box */
+.box a {
+  color: #3498db; /* Highlighted blue for links */
+  text-decoration: none;
+}
+
+.box a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons inside the box */
+.box .button {
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.box .button.is-link {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+.box .button.is-link:hover {
+  background-color: #3a78c4;
+}
+
+/* Media Query for Responsiveness */
+@media screen and (max-width: 768px) {
+  .box {
+    padding: 20px; /* Slightly reduce padding for smaller screens */
+    max-height: 400px; /* Adjust max height */
+  }
+
+  .box .title {
+    font-size: 1.3rem; /* Slightly smaller title font */
+  }
+}
