@@ -7,6 +7,8 @@ const qualifyingResults = document.getElementById("qualifying-results");
 const raceResults = document.getElementById("race-results");
 
   // Modal elements for constructors
+  const logo = document.querySelector(".navbar-item img"); // Select the logo
+
 const constructorModal = document.getElementById("constructor-modal");
 const closeModalButton = document.getElementById("close-modal");
 const constructorName = document.getElementById("constructor-name");
@@ -43,6 +45,19 @@ homeButton.addEventListener("click", (event) => {
   event.preventDefault(); // Prevent default behavior of anchor
   homeSection.classList.replace("hidden", "visible");
   raceViewSection.classList.replace("visible", "hidden");
+});
+
+logo.addEventListener("click", (event) => {
+  event.preventDefault(); // Prevent default behavior (if any)
+
+  // Show the home view and hide other views
+  homeSection.classList.add("visible");
+  homeSection.classList.remove("hidden");
+  raceViewSection.classList.add("hidden");
+  raceViewSection.classList.remove("visible");
+
+  // Optionally scroll to the top of the home section
+  homeView.scrollIntoView({ behavior: "smooth" });
 });
   // Event listener to open the favorites modal
   function populateFavoritesList() {
