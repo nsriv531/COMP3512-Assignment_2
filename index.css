@@ -198,39 +198,69 @@ body {
 }
 
 /* Modal Styling */
-.modal {
-  display: none;
-}
-
-.modal.is-active {
-  display: flex;
-}
-
-.modal-background {
-  background-color: rgba(0, 0, 0, 0.9);
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 30;
-}
-
-.modal-content {
-  position: relative;
-  margin: 0 auto;
-  max-width: 700px;
-  z-index: 40;
-}
-
 .modal .box {
-  background: #1e1e2f;
+  background-color: #1e1e2f; /* Dark background for the modal */
   border-radius: 12px;
   padding: 25px;
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
-  color: #e0e0e0;
+  color: #e0e0e0; /* Light text color for readability */
+}
+
+/* Text Styling in Modals */
+.modal .box p,
+.modal .box h3,
+.modal .box h4,
+.modal .box span {
+  color: #ffffff; /* White text for readability */
+}
+
+/* Table Styling in Modals */
+.modal .box table {
+  width: 100%; /* Full width */
+  background-color: #2c2c3c; /* Dark table background */
+  color: #ffffff; /* White text for table content */
+  border-collapse: collapse; /* Remove gaps between table cells */
+  border: 1px solid #444; /* Subtle border for table */
+  border-radius: 8px; /* Rounded corners for table */
+  margin-top: 20px; /* Add spacing above the table */
+}
+
+.modal .box table th,
+.modal .box table td {
+  padding: 12px; /* Add padding inside table cells */
+  text-align: center; /* Center align text */
+  border: 1px solid #444; /* Border for table cells */
+}
+
+.modal .box table th {
+  background-color: #3a3a4f; /* Slightly darker header background */
+  font-weight: bold; /* Bold font for headers */
+  text-transform: uppercase; /* Uppercase headers */
+}
+
+.modal .box table td {
+  background-color: #2c2c3c; /* Same as table background for consistency */
+}
+
+.modal .box table tr:nth-child(even) td {
+  background-color: #343446; /* Slightly lighter background for alternating rows */
+}
+
+/* Button Styling in Modals */
+.modal .box button {
+  background-color: #4a90e2; /* Primary button color */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal .box button:hover {
+  background-color: #357abf; /* Darker shade for hover effect */
+  transform: translateY(-2px);
 }
 
 /* Responsive Design for Podiums */

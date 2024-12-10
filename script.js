@@ -124,7 +124,6 @@ document.addEventListener("click", (event) => {
 
     if (name) {
       addToFavorites({ type, name });
-      alert(`${type} "${name}" added to favorites!`);
     }
   }
 });
@@ -168,7 +167,6 @@ async function fetchCircuitDetails(circuitRef) {
               type: "Circuit",
               name: circuitData.name || "Unknown"
           });
-          alert(`Circuit "${circuitData.name || "Unknown"}" added to favorites!`);
       });
 
       // Add the button to the modal
@@ -572,7 +570,6 @@ viewRacesBtn.addEventListener("click", async () => {
                 type: "Driver",
                 name: `${driver.forename} ${driver.surname}`
             });
-            alert(`Driver "${driver.forename} ${driver.surname}" added to favorites!`);
         });
 
         // Add the button to the modal
